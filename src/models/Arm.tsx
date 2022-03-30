@@ -15,11 +15,11 @@ const Arm = ({}: {}, ref) => {
     // type: "Static",
   }));
   const [, box1Api] = useBox(() => ({
-    position: [0, -0.35 - 0.5 * 0.5, -0.7],
+    position: [0, -0.35 - 0.5 * 0.5 - 0.2, -0.5],
     args: [2.5, 0.5, 10],
   }));
   const [, box2Api] = useBox(() => ({
-    position: [0, -0.35, -3],
+    position: [0, 0.5, -3],
     args: [2.5, 2.5, 2.5],
   }));
   const s = 0.25;
@@ -33,7 +33,7 @@ const Arm = ({}: {}, ref) => {
   armApi.material.set({ restitution: 0 });
   box1Api.material.set({ restitution: 0 });
   box2Api.material.set({ restitution: 0 });
-  useHingeConstraint(joint, lowerArm, {
+  const [, , hingeApi] = useHingeConstraint(joint, lowerArm, {
     axisA: [0, 0, 1],
     axisB: [0, 0, 1],
     collideConnected: false,
@@ -46,45 +46,22 @@ const Arm = ({}: {}, ref) => {
     mass: 0,
     type: "Static",
   }));
-  const [, , bicepApi] = useSpring(attachment, lowerArm, {
-    localAnchorB: [w * 0.5 - 0.3, 0.05, 0],
-    stiffness: 0,
-  });
-  const offset = [w * 0.5 - 0.1, -0.2, 0] as Triplet;
-  // const [, , tricepApi] = useSpring(attachment, lowerArm, {
-  //   localAnchorA: [0, -0.1, 0],
-  //   localAnchorB: offset,
-  //   stiffness: 0,
-  // });
-  const [tricepCheatAttachment] = useBox(() => ({
-    type: "Static",
-    position: [0, -1, 0.5],
-    mass: 0,
-    args: [s, s, s],
-  }));
-  const [, , tricepApiCheat] = useSpring(tricepCheatAttachment, lowerArm, {
-    localAnchorA: [0, 0, 0],
-    localAnchorB: offset,
-    stiffness: 0,
-  });
+  armApi.allowSleep.set(false);
+  const offset = [w * 0.5, -0.01, 0] as Triplet;
   useImperativeHandle(ref, () => ({
     flex: (pressed: "bi" | "tri" | null) => {
-      console.log(pressed);
+      armApi.wakeUp();
       switch (pressed) {
         case null:
-          bicepApi.setStiffness(0);
-          tricepApiCheat.setStiffness(0);
-          // tricepApi.setStiffness(0);
+          hingeApi.disableMotor();
           break;
         case "bi":
-          tricepApiCheat.setStiffness(0);
-          // tricepApi.setStiffness(0);
-          bicepApi.setStiffness(500);
+          hingeApi.setMotorSpeed(1);
+          hingeApi.enableMotor();
           break;
         case "tri":
-          bicepApi.setStiffness(0);
-          tricepApiCheat.setStiffness(500);
-          // tricepApi.setStiffness(500);
+          hingeApi.setMotorSpeed(-1);
+          hingeApi.enableMotor();
           break;
       }
     },
@@ -125,7 +102,7 @@ const Arm = ({}: {}, ref) => {
       </group>
       <mesh ref={attachment1}>
         <sphereGeometry args={[0.1]} />
-        <meshPhysicalMaterial />
+        <meshPhysicalMaterial color="red" />
       </mesh>
     </>
   );
