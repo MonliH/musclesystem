@@ -1,21 +1,40 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { useGLTF } from "@react-three/drei";
-import { useBox, useHingeConstraint, useSpring } from "@react-three/cannon";
+import {
+  useBox,
+  useDistanceConstraint,
+  useHingeConstraint,
+  usePointToPointConstraint,
+  useSphere,
+  useSpring,
+} from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
 import { Object3D, Vector3 } from "three";
+import { Slider } from "@chakra-ui/react";
+import useMuscle from "stores/muscle";
 
 const Arm = ({}: {}, ref) => {
   const { nodes, materials } = useGLTF("/arm.glb");
+  const [bicepStrength, tricepStrength, mass] = useMuscle((state) => [
+    state.bicepStrength,
+    state.tricepStrength,
+    state.mass,
+  ]);
   const w = 3.35;
   const [lowerArm, armApi] = useBox(() => ({
-    mass: 1,
     args: [w, 0.5, 0.5],
     rotation: [0, Math.PI / 2, -0.25],
     position: [0, 0.35, 1.45],
+    mass: mass / 4,
     // type: "Static",
   }));
   const [, box1Api] = useBox(() => ({
-    position: [0, -0.35 - 0.5 * 0.5 - 0.2, -0.5],
+    position: [0, -0.35 - 0.5 * 0.5 - 0.1, -0.5],
     args: [2.5, 0.5, 10],
   }));
   const [, box2Api] = useBox(() => ({
@@ -33,7 +52,7 @@ const Arm = ({}: {}, ref) => {
   armApi.material.set({ restitution: 0 });
   box1Api.material.set({ restitution: 0 });
   box2Api.material.set({ restitution: 0 });
-  const [, , hingeApi] = useHingeConstraint(joint, lowerArm, {
+  useHingeConstraint(joint, lowerArm, {
     axisA: [0, 0, 1],
     axisB: [0, 0, 1],
     collideConnected: false,
@@ -43,37 +62,62 @@ const Arm = ({}: {}, ref) => {
   const [attachment] = useBox(() => ({
     args: [s, s, s],
     position: [0, 0.25, -3.5],
-    mass: 0,
+    mass: mass,
     type: "Static",
   }));
+  const [, , bicepApi] = useSpring(attachment, lowerArm, {
+    localAnchorB: [w * 0.5 - 0.3, 0.05, 0],
+    stiffness: 0,
+    restLength: 3.2,
+  });
+  const offset = [w * 0.5 + 0.1, -0.2, 0] as Triplet;
+  const [, , tricepApi] = useSpring(attachment, lowerArm, {
+    localAnchorA: [0, -0.5, 0],
+    localAnchorB: offset,
+    stiffness: 0,
+  });
   armApi.allowSleep.set(false);
-  const offset = [w * 0.5, -0.01, 0] as Triplet;
   useImperativeHandle(ref, () => ({
     flex: (pressed: "bi" | "tri" | null) => {
+      console.log(pressed);
       armApi.wakeUp();
       switch (pressed) {
         case null:
-          hingeApi.disableMotor();
+          tricepApi.setStiffness(0);
+          bicepApi.setStiffness(0);
           break;
         case "bi":
-          hingeApi.setMotorSpeed(1);
-          hingeApi.enableMotor();
+          tricepApi.setStiffness(0);
+          bicepApi.setStiffness(bicepStrength);
           break;
         case "tri":
-          hingeApi.setMotorSpeed(-1);
-          hingeApi.enableMotor();
+          bicepApi.setStiffness(0);
+          tricepApi.setStiffness(tricepStrength);
           break;
       }
     },
   }));
   const attachment1 = useRef<Object3D>(null);
+  const weight = useRef<Object3D>(null);
+  useEffect(() => {
+    armApi.mass.set(mass / 4);
+    console.log(mass);
+  }, [mass]);
   useFrame(() => {
-    if (attachment1.current && lowerArm.current) {
+    if (!lowerArm.current) return;
+    if (attachment1.current) {
       const local = new Vector3(...offset);
       const pos = lowerArm.current.localToWorld(local);
       attachment1.current.position.set(pos.x, pos.y, pos.z);
       attachment1.current.updateMatrixWorld();
       attachment1.current.updateMatrix();
+    }
+    if (weight.current) {
+      const local = new Vector3(-w * 0.5 - 0.3, 0, 0);
+      const pos = lowerArm.current.localToWorld(local);
+      weight.current.position.set(pos.x, pos.y, pos.z);
+      weight.current.updateMatrixWorld();
+      weight.current.updateMatrix();
     }
   });
   return (
@@ -102,6 +146,10 @@ const Arm = ({}: {}, ref) => {
       </group>
       <mesh ref={attachment1}>
         <sphereGeometry args={[0.1]} />
+        <meshPhysicalMaterial color="red" />
+      </mesh>
+      <mesh ref={weight}>
+        <sphereGeometry args={[Math.cbrt((mass - 3) / 30)]} />
         <meshPhysicalMaterial color="red" />
       </mesh>
     </>

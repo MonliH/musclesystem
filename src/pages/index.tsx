@@ -1,16 +1,27 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Text,
+} from "@chakra-ui/react";
 import { Debug, Physics, usePlane } from "@react-three/cannon";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
 import Arm from "models/Arm";
 import { Suspense, useRef, useState } from "react";
+import create from "zustand";
+import useMuscle from "stores/muscle";
 
 const Home: NextPage = () => {
   const armRef = useRef();
+  const state = useMuscle((state) => state);
   return (
-    <>
-      <Box m={50} w="100%" h="100%" position="absolute">
+    <Box display="flex" flexDirection="row" h="100%" w="100%">
+      <Box p={200} pr={0}>
         <Box w="500px">
           <Heading>Muscle</Heading>
           <Text>
@@ -22,14 +33,55 @@ const Home: NextPage = () => {
             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
             culpa qui officia deserunt mollit anim id est laborum.
           </Text>
+          <Box mt="8">
+            <Text fontWeight={"bold"}>Bicep Strength</Text>
+            <Slider
+              onChange={(v) => state.setBicep(v)}
+              value={state.bicepStrength}
+              defaultValue={500}
+              min={30}
+              max={2500}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+
+            <Text fontWeight={"bold"}>Tricep Strength</Text>
+            <Slider
+              onChange={(v) => state.setTricep(v)}
+              value={state.tricepStrength}
+              min={30}
+              defaultValue={40}
+              max={175}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+            <Text fontWeight={"bold"}>Mass of Load</Text>
+            <Slider
+              onChange={(v) => state.setMass(v)}
+              value={state.mass}
+              min={4}
+              max={5.5}
+              step={0.1}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Box>
         </Box>
       </Box>
       <Box
-        position="absolute"
         w="100%"
         h="100%"
-        top="0"
-        left="0"
+        position="relative"
+        onContextMenu={(e) => e.preventDefault()}
         onMouseDown={(e) => {
           switch (e.button) {
             case 0:
@@ -46,8 +98,10 @@ const Home: NextPage = () => {
       >
         <Canvas
           shadows
-          camera={{ position: [-1, 5, 5], fov: 45 }}
-          style={{ position: "static" }}
+          camera={{ position: [-7, 5, 0.4], fov: 45 }}
+          onCreated={({ camera }) => {
+            camera.lookAt(0, 0, 0.4);
+          }}
         >
           <ambientLight />
           <pointLight position={[1, 1, 1]} castShadow />
@@ -63,7 +117,7 @@ const Home: NextPage = () => {
           </Suspense>
         </Canvas>
       </Box>
-    </>
+    </Box>
   );
 };
 
