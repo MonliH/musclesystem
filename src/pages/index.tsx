@@ -4,10 +4,10 @@ import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
 import Arm from "models/Arm";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 
 const Home: NextPage = () => {
-  const [pressed, setPressed] = useState<null | "bi" | "tri">(null);
+  const armRef = useRef();
   return (
     <Box
       w="100%"
@@ -15,16 +15,16 @@ const Home: NextPage = () => {
       onMouseDown={(e) => {
         switch (e.button) {
           case 0:
-            setPressed("bi");
+            armRef.current.flex("bi");
             break;
           case 2:
-            setPressed("tri");
+            armRef.current.flex("tri");
             break;
           default:
             break;
         }
       }}
-      onMouseUp={() => setPressed(null)}
+      onMouseUp={() => armRef.current.flex(null)}
     >
       <Canvas shadows camera={{ position: [-1, 5, 5], fov: 45 }}>
         <ambientLight />
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
         <Suspense fallback={<Text>Loading...</Text>}>
           <Physics allowSleep>
             <Debug scale={1.0}>
-              <Arm pressed={pressed} />
+              <Arm ref={armRef} />
             </Debug>
           </Physics>
         </Suspense>
