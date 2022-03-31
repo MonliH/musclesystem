@@ -10,14 +10,17 @@ import { useBox, useHingeConstraint } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
 import { Matrix4, Object3D, Vector3 } from "three";
 import useMuscle from "stores/muscle";
+import { useSpring, a } from "@react-spring/three";
+import { useSection } from "sections/section";
 
 export type ArmHandle = {
   flex: (pressed: "bi" | "tri" | null) => void;
 };
 
-const Arm = ({}: {}, ref: ForwardedRef<ArmHandle>) => {
+const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
+  const { visible } = useSection(order);
   const flexing = useRef({ bicep: false, tricep: false });
-  const { nodes, materials } = useGLTF("/arm.glb") as any;
+  const { nodes } = useGLTF("/arm.glb") as any;
   const [bicepStrength, tricepStrength, mass] = useMuscle((state) => [
     state.bicepStrength,
     state.tricepStrength,
@@ -50,7 +53,7 @@ const Arm = ({}: {}, ref: ForwardedRef<ArmHandle>) => {
     userData: { id: 1 },
   }));
   const s = 0.25;
-  const [joint, api] = useBox(() => ({
+  const [joint] = useBox(() => ({
     args: [s, s, s],
     rotation: [0, Math.PI / 2, 0],
     position: [0, 0, 0],
@@ -120,12 +123,7 @@ const Arm = ({}: {}, ref: ForwardedRef<ArmHandle>) => {
   useFrame(() => {
     if (!lowerArm.current) return;
     if (!attachment.current) return;
-    if (
-      // attachment1.current &&
-      attachment.current &&
-      tricep.current &&
-      weight.current
-    ) {
+    if (attachment.current && tricep.current && weight.current) {
       const weightPos = lowerArm.current.localToWorld(weightOffset.clone());
       weight.current.position.set(weightPos.x, weightPos.y, weightPos.z);
       weight.current.updateMatrix();
@@ -134,9 +132,6 @@ const Arm = ({}: {}, ref: ForwardedRef<ArmHandle>) => {
       const bicepPos = lowerArm.current.localToWorld(
         new Vector3(w * 0.5 - 0.5, 0.15, 0)
       );
-      // attachment1.current.position.set(bicepPos.x, bicepPos.y, bicepPos.z);
-      // attachment1.current.updateMatrix();
-      // attachment1.current.updateMatrixWorld();
       const attachmentPos = attachment.current.position.clone();
       attachmentPos.y = 0.3;
       let orientation = new Matrix4();
@@ -182,13 +177,18 @@ const Arm = ({}: {}, ref: ForwardedRef<ArmHandle>) => {
     }
   });
 
+  const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
+  const props = {
+    transparent: true,
+    opacity,
+  };
   return (
     <>
       <mesh
         geometry={nodes.Humerus_Humerus001.geometry}
         rotation={[Math.PI / 2, 0, 0]}
       >
-        <meshPhysicalMaterial />
+        <a.meshPhysicalMaterial {...props} />
       </mesh>
       <group ref={lowerArm}>
         <mesh
@@ -196,23 +196,23 @@ const Arm = ({}: {}, ref: ForwardedRef<ArmHandle>) => {
           rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
           position={[1.5, 0, 0]}
         >
-          <meshPhysicalMaterial />
+          <a.meshPhysicalMaterial {...props} />
         </mesh>
         <mesh
           geometry={nodes.Ulna_Ulna001.geometry}
           rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
           position={[1.5, 0, 0]}
         >
-          <meshPhysicalMaterial />
+          <a.meshPhysicalMaterial {...props} />
         </mesh>
       </group>
       <mesh ref={weight}>
         <sphereGeometry args={[weightRadius]} />
-        <meshPhysicalMaterial color="cyan" />
+        <a.meshPhysicalMaterial {...props} color="cyan" />
       </mesh>
       <mesh ref={tricep}>
         <cylinderGeometry args={[0.01, 0.01, 1, 10]} />
-        <meshPhysicalMaterial color="red" />
+        <a.meshPhysicalMaterial {...props} color="red" />
       </mesh>
     </>
   );

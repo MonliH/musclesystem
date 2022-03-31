@@ -3,13 +3,16 @@ import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
 import Arm, { ArmHandle } from "models/Arm";
-import { Suspense, useRef } from "react";
+import { Suspense, UIEvent, useRef } from "react";
 import MuscleSection from "sections/muscle";
+import BoneSection from "sections/bone";
+import usePage from "stores/page";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
+  const setScroll = usePage((state) => state.setPageProgress);
   return (
-    <>
+    <Box w="100%" h="100%">
       <Box
         w="65%"
         h="100%"
@@ -45,16 +48,29 @@ const Home: NextPage = () => {
           <Suspense fallback={<Text>Loading...</Text>}>
             <Physics allowSleep>
               {/* <Debug scale={1.0}> */}
-              <Arm ref={armRef} />
+              <Arm order={1} ref={armRef} />
               {/* </Debug> */}
             </Physics>
           </Suspense>
         </Canvas>
       </Box>
-      <Box width="100%" height="100%">
+      <Box
+        position="relative"
+        width="100%"
+        zIndex="10"
+        height="100%"
+        onScroll={(e: UIEvent<HTMLDivElement>) => {
+          setScroll(e.currentTarget.scrollTop);
+          console.log("HI");
+        }}
+        overflowY="scroll"
+      >
+        <BoneSection />
         <MuscleSection />
+        <BoneSection />
+        <BoneSection />
       </Box>
-    </>
+    </Box>
   );
 };
 
