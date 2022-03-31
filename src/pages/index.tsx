@@ -3,10 +3,12 @@ import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
 import Arm, { ArmHandle } from "models/Arm";
+import Bone from "models/Bone";
 import { Suspense, UIEvent, useRef } from "react";
 import MuscleSection from "sections/muscle";
 import BoneSection from "sections/bone";
 import usePage from "stores/page";
+import { OrbitControls } from "@react-three/drei";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -25,10 +27,13 @@ const Home: NextPage = () => {
           <pointLight position={[1, 1, 1]} castShadow />
           <pointLight position={[-1, -1, -1]} castShadow />
           {/* <axesHelper /> */}
+          {/* <OrbitControls /> */}
           <Suspense fallback={<Text>Loading...</Text>}>
             <Physics allowSleep>
               {/* <Debug scale={1.0}> */}
+              <Bone order={0} />
               <Arm order={1} ref={armRef} />
+              {/* <Bone order={2} /> */}
               {/* </Debug> */}
             </Physics>
           </Suspense>

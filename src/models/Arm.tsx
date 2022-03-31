@@ -183,14 +183,14 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
     opacity,
   };
   return (
-    <>
+    <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
       <mesh
         geometry={nodes.Humerus_Humerus001.geometry}
         rotation={[Math.PI / 2, 0, 0]}
       >
         <a.meshPhysicalMaterial {...props} />
       </mesh>
-      <group ref={lowerArm}>
+      <group ref={lowerArm} renderOrder={order}>
         <mesh
           geometry={nodes.Radius_Radius001.geometry}
           rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
@@ -214,7 +214,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
         <cylinderGeometry args={[0.01, 0.01, 1, 10]} />
         <a.meshPhysicalMaterial {...props} color="red" />
       </mesh>
-    </>
+    </a.group>
   );
 };
 

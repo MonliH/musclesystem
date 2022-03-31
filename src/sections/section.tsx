@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import { Box } from "@chakra-ui/react";
 import usePage from "stores/page";
 
@@ -12,7 +12,9 @@ export default function Section({ children }: { children: ReactNode }) {
 
 export function useSection(order: number): {
   visible: boolean;
+  visibleRef: React.MutableRefObject<boolean>;
   nextTransitionAmt: number;
+  nextTransitionAmtRef: React.MutableRefObject<number>;
 } {
   const pageProgress = usePage((state) => state.pageProgress);
   const sectionPixelOffset = pageProgress - order * window.innerHeight;
@@ -20,9 +22,14 @@ export function useSection(order: number): {
     sectionPixelOffset < 0 || sectionPixelOffset >= window.innerHeight
       ? false
       : true;
+  const visibleRef = useRef(visible);
+  visibleRef.current = visible;
   const nextTransitionAmt = Math.min(
     Math.max(sectionPixelOffset / window.innerHeight, 0),
     1
   );
-  return { visible, nextTransitionAmt };
+  const nextTransitionAmtRef = useRef(nextTransitionAmt);
+  nextTransitionAmtRef.current = nextTransitionAmt;
+
+  return { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef };
 }
