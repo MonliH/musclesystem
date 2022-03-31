@@ -1,9 +1,9 @@
 import create from "zustand";
 
 const useMuscle = create((set) => ({
-  tricepStrength: 40,
-  bicepStrength: 500,
-  mass: 4,
+  tricepStrength: 69,
+  bicepStrength: 600,
+  mass: 1,
   setTricep: (s: number) => set({ tricepStrength: s }),
   setBicep: (s: number) => set({ bicepStrength: s }),
   setMass: (s: number) => set({ mass: s }),

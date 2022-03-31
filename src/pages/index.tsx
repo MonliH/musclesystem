@@ -33,7 +33,7 @@ const Home: NextPage = () => {
             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
             culpa qui officia deserunt mollit anim id est laborum.
           </Text>
-          <Box mt="8">
+          {/* <Box mt="8">
             <Text fontWeight={"bold"}>Bicep Strength</Text>
             <Slider
               onChange={(v) => state.setBicep(v)}
@@ -52,8 +52,8 @@ const Home: NextPage = () => {
             <Slider
               onChange={(v) => state.setTricep(v)}
               value={state.tricepStrength}
-              min={30}
-              defaultValue={40}
+              min={100}
+              defaultValue={112}
               max={175}
             >
               <SliderTrack>
@@ -74,7 +74,7 @@ const Home: NextPage = () => {
               </SliderTrack>
               <SliderThumb />
             </Slider>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
       <Box
