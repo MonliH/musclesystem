@@ -19,6 +19,7 @@ import { BreadcrumbSeparator, Slider } from "@chakra-ui/react";
 import useMuscle from "stores/muscle";
 
 const Arm = ({}: {}, ref) => {
+  const flexing = useRef({ bicep: false, tricep: false });
   const { nodes, materials } = useGLTF("/arm.glb");
   const [bicepStrength, tricepStrength, mass] = useMuscle((state) => [
     state.bicepStrength,
@@ -31,15 +32,26 @@ const Arm = ({}: {}, ref) => {
     rotation: [0, Math.PI / 2, -0.25],
     position: [0, 0.35, 1.45],
     mass: mass / 4,
+    onCollideEnd: (e) => {
+      const isBicep = e.body.userData.id === 1;
+      if (isBicep) {
+        flexing.current.bicep = false;
+      } else {
+        flexing.current.tricep = false;
+      }
+      armApi.velocity.set(0, 0, 0);
+    },
     // type: "Static",
   }));
   const [, box1Api] = useBox(() => ({
     position: [0, -0.35 - 0.5 * 0.5 - 0.1, -0.5],
     args: [2.5, 0.6, 10],
+    userData: { id: 0 },
   }));
   const [, box2Api] = useBox(() => ({
-    position: [0, 0.5, -3],
+    position: [0, 0.5, -2.5],
     args: [2.5, 2.5, 2.5],
+    userData: { id: 1 },
   }));
   const s = 0.25;
   const [joint, api] = useBox(() => ({
@@ -49,27 +61,30 @@ const Arm = ({}: {}, ref) => {
     mass: 0,
     type: "Static",
   }));
-  armApi.material.set({ restitution: 0 });
-  box1Api.material.set({ restitution: 0 });
-  box2Api.material.set({ restitution: 0 });
+  armApi.material.set({
+    friction: 10.0,
+    restitution: 0.0,
+    contactEquationRelaxation: 1000.0,
+    frictionEquationStiffness: 1,
+  });
+  box1Api.material.set({
+    friction: 10.0,
+    restitution: 0.0,
+    contactEquationRelaxation: 1000.0,
+    frictionEquationStiffness: 1,
+  });
+  box2Api.material.set({
+    friction: 10.0,
+    restitution: 0.0,
+    contactEquationRelaxation: 1000.0,
+    frictionEquationStiffness: 1,
+  });
   const [attachment] = useBox(() => ({
     args: [s, s, s],
-    position: [0, 0, -3.5],
+    position: [0, 0.2, -3.5],
     mass: mass,
     type: "Static",
   }));
-  const [, , bicepApi] = useSpring(attachment, lowerArm, {
-    localAnchorB: [w * 0.5 - 0.3, 0.05, 0],
-    stiffness: 0,
-    restLength: 3.4135414492518756,
-  });
-  const offset = [w * 0.5 + 0.3, -0.2, 0] as Triplet;
-  const [, , tricepApi] = useSpring(attachment, lowerArm, {
-    localAnchorA: [0, -3, 0],
-    localAnchorB: offset,
-    stiffness: 0,
-    restLength: 2.997404923144768,
-  });
   armApi.allowSleep.set(false);
 
   useHingeConstraint(joint, lowerArm, {
@@ -83,70 +98,103 @@ const Arm = ({}: {}, ref) => {
   useImperativeHandle(ref, () => ({
     flex: (pressed: "bi" | "tri" | null) => {
       armApi.wakeUp();
+      console.log(pressed);
       switch (pressed) {
         case null:
-          tricepApi.setStiffness(0);
-          bicepApi.setStiffness(0);
+          flexing.current = { bicep: false, tricep: false };
           break;
         case "bi":
-          tricepApi.setStiffness(0);
-          bicepApi.setStiffness(bicepStrength);
+          flexing.current = { bicep: true, tricep: false };
           break;
         case "tri":
-          bicepApi.setStiffness(0);
-          tricepApi.setStiffness(tricepStrength);
+          flexing.current = { bicep: false, tricep: true };
           break;
       }
     },
   }));
-  const attachment1 = useRef<Object3D>(null);
-  const weight = useRef<Object3D>(null);
+  // const attachment1 = useRef<Object3D>(null);
   const tricep = useRef<Object3D>(null);
+  const weight = useRef<Object3D>(null);
   useEffect(() => {
     armApi.mass.set(mass / 4);
   }, [mass]);
+  const bicepOffset = new Vector3(w * 0.5 - 0.5, 0.3, 0);
+  const fakeTricepOffset = new Vector3(w * 0.5 - 0.5, -0.1, 0);
+  const weightRadius = Math.cbrt((mass - 0.99) * 0.1);
+  const weightOffset = new Vector3(-w * 0.5 - weightRadius - 0.1, 0, 0);
   useFrame(() => {
     if (!lowerArm.current) return;
-    if (attachment1.current && attachment.current && tricep.current) {
-      const local = new Vector3(offset[0], offset[1], offset[2]);
-      // const local = new Vector3(w * 0.5 - 0.3, 0.05, 0);
-      const tricepPos = lowerArm.current.localToWorld(local);
-      const attachmentPos = attachment.current.position;
-      attachment1.current.position.set(tricepPos.x, tricepPos.y, tricepPos.z);
-      attachment1.current.updateMatrix();
-      attachment1.current.updateMatrixWorld();
+    if (!attachment.current) return;
+    if (
+      // attachment1.current &&
+      attachment.current &&
+      tricep.current &&
+      weight.current
+    ) {
+      const weightPos = lowerArm.current.localToWorld(weightOffset.clone());
+      weight.current.position.set(weightPos.x, weightPos.y, weightPos.z);
+      weight.current.updateMatrix();
+      weight.current.updateMatrixWorld();
 
+      const bicepPos = lowerArm.current.localToWorld(
+        new Vector3(w * 0.5 - 0.5, 0.15, 0)
+      );
+      // attachment1.current.position.set(bicepPos.x, bicepPos.y, bicepPos.z);
+      // attachment1.current.updateMatrix();
+      // attachment1.current.updateMatrixWorld();
+      const attachmentPos = attachment.current.position.clone();
+      attachmentPos.y = 0.3;
       let orientation = new Matrix4();
       let offsetRotation = new Matrix4();
       offsetRotation = offsetRotation.makeRotationX(Math.PI / 2);
-      orientation.lookAt(attachmentPos, tricepPos, new Vector3(0, 1, 0));
+      orientation.lookAt(attachmentPos, bicepPos, new Vector3(0, 1, 0));
       orientation = orientation.multiply(offsetRotation);
 
-      const distance = attachmentPos.distanceTo(tricepPos);
-      console.log(distance);
-      const position = tricepPos.clone().add(attachmentPos).divideScalar(2);
-      // tricep.current.position.set(position.x, position.y, position.z);
-      // tricep.current.quaternion.setFromRotationMatrix(orientation);
-      // tricep.current.scale.set(1, distance, 1);
+      const distance = attachmentPos.distanceTo(bicepPos);
+      const position = bicepPos.clone().add(attachmentPos).divideScalar(2);
+      tricep.current.position.set(position.x, position.y, position.z);
+      tricep.current.quaternion.setFromRotationMatrix(orientation);
+      const radius = 6 / Math.max((distance - 3.2) * 5, 1);
+      tricep.current.scale.set(radius, distance, radius);
     }
-    if (weight.current) {
-      const local = new Vector3(-w * 0.5 - 0.3, 0, 0);
-      const pos = lowerArm.current.localToWorld(local);
-      weight.current.position.set(pos.x, pos.y, pos.z);
-      weight.current.updateMatrixWorld();
-      weight.current.updateMatrix();
+
+    if (flexing.current.bicep) {
+      const bicepPos = lowerArm.current.localToWorld(bicepOffset.clone());
+      const attachmentPos = attachment.current.position;
+      const forceDir = attachmentPos
+        .clone()
+        .sub(bicepPos)
+        .normalize()
+        .multiplyScalar(bicepStrength);
+      armApi.applyImpulse(
+        [forceDir.x, forceDir.y, forceDir.z],
+        [bicepPos.x, bicepPos.y, bicepPos.z]
+      );
+    } else if (flexing.current.tricep) {
+      const tricepPos = lowerArm.current.localToWorld(fakeTricepOffset.clone());
+      const attachmentPos = attachment.current.position;
+
+      const forceDir = attachmentPos
+        .clone()
+        .sub(tricepPos)
+        .normalize()
+        .multiplyScalar(tricepStrength)
+        .negate();
+      armApi.applyImpulse(
+        [forceDir.x, forceDir.y, forceDir.z],
+        [tricepPos.x, tricepPos.y, tricepPos.z]
+      );
     }
   });
   useEffect(() => {
-    setTimeout(() => {
-      tricepApi.setStiffness(0);
-      bicepApi.setStiffness(800);
-      setTimeout(() => {
-        tricepApi.setStiffness(0);
-        bicepApi.setStiffness(0);
-      }, 500);
-    }, 0);
+    // setTimeout(() => {
+    //   flexing.current = { bicep: true, tricep: false };
+    //   setTimeout(() => {
+    //     flexing.current = { bicep: false, tricep: false };
+    //   }, 500);
+    // }, 0);
   }, []);
+
   return (
     <>
       <mesh
@@ -171,13 +219,17 @@ const Arm = ({}: {}, ref) => {
           <meshPhysicalMaterial />
         </mesh>
       </group>
-      <mesh ref={attachment1}>
+      {/* <mesh ref={attachment1}>
         <sphereGeometry args={[0.1]} />
         <meshPhysicalMaterial color="red" />
+      </mesh> */}
+      <mesh ref={weight}>
+        <sphereGeometry args={[weightRadius]} />
+        <meshPhysicalMaterial color="cyan" />
       </mesh>
       <mesh ref={tricep}>
-        <cylinderGeometry args={[0.1, 0.1, 1, 10]} />
-        <meshPhysicalMaterial />
+        <cylinderGeometry args={[0.01, 0.01, 1, 10]} />
+        <meshPhysicalMaterial color="red" />
       </mesh>
     </>
   );

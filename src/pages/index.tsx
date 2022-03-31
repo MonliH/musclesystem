@@ -33,14 +33,15 @@ const Home: NextPage = () => {
             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
             culpa qui officia deserunt mollit anim id est laborum.
           </Text>
-          {/* <Box mt="8">
+          <Box mt="8">
             <Text fontWeight={"bold"}>Bicep Strength</Text>
             <Slider
               onChange={(v) => state.setBicep(v)}
               value={state.bicepStrength}
-              defaultValue={500}
-              min={30}
-              max={2500}
+              defaultValue={0.4}
+              min={0.1}
+              max={3.0}
+              step={0.1}
             >
               <SliderTrack>
                 <SliderFilledTrack />
@@ -52,9 +53,10 @@ const Home: NextPage = () => {
             <Slider
               onChange={(v) => state.setTricep(v)}
               value={state.tricepStrength}
-              min={100}
-              defaultValue={112}
-              max={175}
+              min={0.1}
+              defaultValue={0.3}
+              max={2}
+              step={0.1}
             >
               <SliderTrack>
                 <SliderFilledTrack />
@@ -65,8 +67,9 @@ const Home: NextPage = () => {
             <Slider
               onChange={(v) => state.setMass(v)}
               value={state.mass}
-              min={4}
+              min={1}
               max={5.5}
+              defaultValue={1}
               step={0.1}
             >
               <SliderTrack>
@@ -74,7 +77,7 @@ const Home: NextPage = () => {
               </SliderTrack>
               <SliderThumb />
             </Slider>
-          </Box> */}
+          </Box>
         </Box>
       </Box>
       <Box
@@ -107,12 +110,12 @@ const Home: NextPage = () => {
           <pointLight position={[1, 1, 1]} castShadow />
           <pointLight position={[-1, -1, -1]} castShadow />
           <OrbitControls />
-          <axesHelper />
+          {/* <axesHelper /> */}
           <Suspense fallback={<Text>Loading...</Text>}>
             <Physics allowSleep>
-              <Debug scale={1.0}>
-                <Arm ref={armRef} />
-              </Debug>
+              {/* <Debug scale={1.0}> */}
+              <Arm ref={armRef} />
+              {/* </Debug> */}
             </Physics>
           </Suspense>
         </Canvas>
