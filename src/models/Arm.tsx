@@ -188,6 +188,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
         geometry={nodes.Humerus_Humerus001.geometry}
         rotation={[Math.PI / 2, 0, 0]}
       >
+        {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
         <a.meshPhysicalMaterial {...props} />
       </mesh>
       <group ref={lowerArm} renderOrder={order}>
