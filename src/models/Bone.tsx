@@ -21,7 +21,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   useFrame(() => {
     if (!bone.current) return;
     if (visibleRef.current && nextTransitionAmtRef.current < 0.5) {
-      //   bone.current.rotateY(0.005);
+      bone.current.rotateY(0.005);
     }
   });
   return (
