@@ -1,26 +1,23 @@
 import React, {
+  ForwardedRef,
   forwardRef,
   useEffect,
   useImperativeHandle,
   useRef,
 } from "react";
 import { useGLTF } from "@react-three/drei";
-import {
-  useBox,
-  useDistanceConstraint,
-  useHingeConstraint,
-  usePointToPointConstraint,
-  useSphere,
-  useSpring,
-} from "@react-three/cannon";
+import { useBox, useHingeConstraint } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
 import { Matrix4, Object3D, Vector3 } from "three";
-import { BreadcrumbSeparator, Slider } from "@chakra-ui/react";
 import useMuscle from "stores/muscle";
 
-const Arm = ({}: {}, ref) => {
+export type ArmHandle = {
+  flex: (pressed: "bi" | "tri" | null) => void;
+};
+
+const Arm = ({}: {}, ref: ForwardedRef<ArmHandle>) => {
   const flexing = useRef({ bicep: false, tricep: false });
-  const { nodes, materials } = useGLTF("/arm.glb");
+  const { nodes, materials } = useGLTF("/arm.glb") as any;
   const [bicepStrength, tricepStrength, mass] = useMuscle((state) => [
     state.bicepStrength,
     state.tricepStrength,
@@ -41,7 +38,6 @@ const Arm = ({}: {}, ref) => {
       }
       armApi.velocity.set(0, 0, 0);
     },
-    // type: "Static",
   }));
   const [, box1Api] = useBox(() => ({
     position: [0, -0.35 - 0.5 * 0.5 - 0.1, -0.5],
@@ -112,7 +108,6 @@ const Arm = ({}: {}, ref) => {
       }
     },
   }));
-  // const attachment1 = useRef<Object3D>(null);
   const tricep = useRef<Object3D>(null);
   const weight = useRef<Object3D>(null);
   useEffect(() => {
@@ -186,14 +181,6 @@ const Arm = ({}: {}, ref) => {
       );
     }
   });
-  useEffect(() => {
-    // setTimeout(() => {
-    //   flexing.current = { bicep: true, tricep: false };
-    //   setTimeout(() => {
-    //     flexing.current = { bicep: false, tricep: false };
-    //   }, 500);
-    // }, 0);
-  }, []);
 
   return (
     <>
@@ -219,10 +206,6 @@ const Arm = ({}: {}, ref) => {
           <meshPhysicalMaterial />
         </mesh>
       </group>
-      {/* <mesh ref={attachment1}>
-        <sphereGeometry args={[0.1]} />
-        <meshPhysicalMaterial color="red" />
-      </mesh> */}
       <mesh ref={weight}>
         <sphereGeometry args={[weightRadius]} />
         <meshPhysicalMaterial color="cyan" />
