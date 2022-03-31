@@ -14,7 +14,7 @@ export default function MuscleSection() {
   const state = useMuscle((state) => state);
   return (
     <Section>
-      <Heading>Muscle</Heading>
+      <Heading mb="5">Muscle</Heading>
       <Text>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

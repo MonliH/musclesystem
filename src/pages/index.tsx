@@ -13,27 +13,7 @@ const Home: NextPage = () => {
   const setScroll = usePage((state) => state.setPageProgress);
   return (
     <Box w="100%" h="100%">
-      <Box
-        w="65%"
-        h="100%"
-        top="0"
-        left="35%"
-        position="fixed"
-        onContextMenu={(e) => e.preventDefault()}
-        onMouseDown={(e) => {
-          switch (e.button) {
-            case 0:
-              armRef.current!.flex("bi");
-              break;
-            case 2:
-              armRef.current!.flex("tri");
-              break;
-            default:
-              break;
-          }
-        }}
-        onMouseUp={() => armRef.current!.flex(null)}
-      >
+      <Box w="65%" h="100%" top="0" left="35%" position="fixed">
         <Canvas
           shadows
           camera={{ position: [-7, 5, 0.1], fov: 45 }}
@@ -61,9 +41,22 @@ const Home: NextPage = () => {
         height="100%"
         onScroll={(e: UIEvent<HTMLDivElement>) => {
           setScroll(e.currentTarget.scrollTop);
-          console.log("HI");
         }}
+        onMouseDown={(e) => {
+          switch (e.button) {
+            case 0:
+              armRef.current!.flex("bi");
+              break;
+            case 2:
+              armRef.current!.flex("tri");
+              break;
+            default:
+              break;
+          }
+        }}
+        onMouseUp={() => armRef.current!.flex(null)}
         overflowY="scroll"
+        onContextMenu={(e) => e.preventDefault()}
       >
         <BoneSection />
         <MuscleSection />
