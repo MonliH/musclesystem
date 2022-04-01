@@ -6,9 +6,11 @@ import Arm, { ArmHandle } from "models/Arm";
 import Bone from "models/Bone";
 import { Suspense, UIEvent, useRef } from "react";
 import MuscleSection from "sections/muscle";
+import CartilageSection from "sections/cartilage";
 import BoneSection from "sections/bone";
 import usePage from "stores/page";
 import { OrbitControls } from "@react-three/drei";
+import Cartilage from "models/Cartilage";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -33,6 +35,7 @@ const Home: NextPage = () => {
               {/* <Debug scale={1.0}> */}
               <Bone order={0} />
               <Arm order={1} ref={armRef} />
+              <Cartilage order={2} />
               {/* <Bone order={2} /> */}
               {/* </Debug> */}
             </Physics>
@@ -65,7 +68,7 @@ const Home: NextPage = () => {
       >
         <BoneSection />
         <MuscleSection />
-        <BoneSection />
+        <CartilageSection />
         <BoneSection />
       </Box>
     </Box>

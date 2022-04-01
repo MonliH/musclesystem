@@ -25,9 +25,8 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
     }
   });
   return (
-    <a.mesh
+    <a.group
       ref={bone}
-      geometry={nodes.Humerus_Humerus001.geometry}
       visible={opacity.to((v) => v > 0)}
       renderOrder={order}
       rotation={[
@@ -46,8 +45,13 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
         MathUtils.lerp(scale[2], 1, nextTransitionAmt),
       ]}
     >
-      <meshPhysicalMaterial />
-    </a.mesh>
+      <mesh geometry={nodes.Humerus_2.geometry}>
+        <meshPhysicalMaterial />
+      </mesh>
+      <mesh geometry={nodes.Humerus_1.geometry}>
+        <meshPhysicalMaterial />
+      </mesh>
+    </a.group>
   );
 };
 

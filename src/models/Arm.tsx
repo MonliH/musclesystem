@@ -97,7 +97,6 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   useImperativeHandle(ref, () => ({
     flex: (pressed: "bi" | "tri" | null) => {
       armApi.wakeUp();
-      console.log(pressed);
       switch (pressed) {
         case null:
           flexing.current = { bicep: false, tricep: false };
@@ -184,31 +183,42 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   };
   return (
     <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
-      <mesh
-        geometry={nodes.Humerus_Humerus001.geometry}
-        rotation={[Math.PI / 2, 0, 0]}
-      >
-        {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
-        <a.meshPhysicalMaterial {...props} />
-      </mesh>
-      <group ref={lowerArm} renderOrder={order}>
-        <mesh
-          geometry={nodes.Radius_Radius001.geometry}
-          rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
-          position={[1.5, 0, 0]}
-        >
+      <group rotation={[Math.PI / 2, 0, 0]}>
+        <mesh geometry={nodes.Humerus_1.geometry}>
+          {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
           <a.meshPhysicalMaterial {...props} />
         </mesh>
-        <mesh
-          geometry={nodes.Ulna_Ulna001.geometry}
-          rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
-          position={[1.5, 0, 0]}
-        >
+        <mesh geometry={nodes.Humerus_2.geometry}>
           <a.meshPhysicalMaterial {...props} />
         </mesh>
       </group>
+      <group ref={lowerArm} renderOrder={order}>
+        <group
+          rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
+          position={[1.5, 0, 0]}
+        >
+          <mesh geometry={nodes.Radius_1.geometry}>
+            <a.meshPhysicalMaterial {...props} />
+          </mesh>
+          <mesh geometry={nodes.Radius_2.geometry}>
+            <a.meshPhysicalMaterial {...props} />
+          </mesh>
+        </group>
+        <group
+          rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
+          position={[1.5, 0, 0]}
+        >
+          <mesh geometry={nodes.Ulna_1.geometry}>
+            <a.meshPhysicalMaterial {...props} />
+          </mesh>
+          <mesh geometry={nodes.Ulna_2.geometry}>
+            <a.meshPhysicalMaterial {...props} />
+          </mesh>
+        </group>
+      </group>
       <mesh ref={weight}>
         <sphereGeometry args={[weightRadius]} />
+        {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
         <a.meshPhysicalMaterial {...props} color="cyan" />
       </mesh>
       <mesh ref={tricep}>
