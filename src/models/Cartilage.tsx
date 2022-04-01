@@ -22,7 +22,7 @@ export default function Cartilage({ order }: { order: number }) {
   const cartilage = {
     transparent: true,
     opacity,
-    color: "#ff0000",
+    color: "#3895ff",
   };
   const bone = useRef<Object3D>();
   const rotation = [0, bone.current?.rotation.y ?? Math.PI / 4, 0];

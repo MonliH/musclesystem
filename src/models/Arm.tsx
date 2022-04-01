@@ -18,7 +18,7 @@ export type ArmHandle = {
 };
 
 const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
-  const { visible } = useSection(order);
+  const { visible, atPrev } = useSection(order);
   const flexing = useRef({ bicep: false, tricep: false });
   const { nodes } = useGLTF("/arm.glb") as any;
   const [bicepStrength, tricepStrength, mass] = useMuscle((state) => [
@@ -180,6 +180,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   const props = {
     transparent: true,
     opacity,
+    depthWrite: atPrev ? false : true,
   };
   return (
     <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
