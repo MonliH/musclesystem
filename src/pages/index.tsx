@@ -34,8 +34,8 @@ const Home: NextPage = () => {
             <Physics allowSleep>
               {/* <Debug scale={1.0}> */}
               <Bone order={0} />
-              <Arm order={1} ref={armRef} />
-              <Cartilage order={2} />
+              <Cartilage order={1} />
+              <Arm order={2} ref={armRef} />
               {/* <Bone order={2} /> */}
               {/* </Debug> */}
             </Physics>
@@ -62,13 +62,13 @@ const Home: NextPage = () => {
               break;
           }
         }}
-        onMouseUp={() => armRef.current!.flex(null)}
+        onMouseUp={() => armRef.current?.flex(null)}
         overflowY="scroll"
         onContextMenu={(e) => e.preventDefault()}
       >
         <BoneSection />
-        <MuscleSection />
         <CartilageSection />
+        <MuscleSection />
         <BoneSection />
       </Box>
     </Box>

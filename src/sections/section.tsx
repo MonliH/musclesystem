@@ -15,6 +15,8 @@ export function useSection(order: number): {
   visibleRef: React.MutableRefObject<boolean>;
   nextTransitionAmt: number;
   nextTransitionAmtRef: React.MutableRefObject<number>;
+  atPrev: boolean;
+  atPrevRef: React.MutableRefObject<boolean>;
 } {
   const pageProgress = usePage((state) => state.pageProgress);
   const sectionPixelOffset = pageProgress - order * window.innerHeight;
@@ -24,6 +26,11 @@ export function useSection(order: number): {
       : true;
   const visibleRef = useRef(visible);
   visibleRef.current = visible;
+
+  const atPrev = sectionPixelOffset <= 0;
+  const atPrevRef = useRef(atPrev);
+  atPrevRef.current = atPrev;
+
   const nextTransitionAmt = Math.min(
     Math.max(sectionPixelOffset / window.innerHeight, 0),
     1
@@ -31,5 +38,12 @@ export function useSection(order: number): {
   const nextTransitionAmtRef = useRef(nextTransitionAmt);
   nextTransitionAmtRef.current = nextTransitionAmt;
 
-  return { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef };
+  return {
+    visible,
+    visibleRef,
+    nextTransitionAmt,
+    nextTransitionAmtRef,
+    atPrev,
+    atPrevRef,
+  };
 }

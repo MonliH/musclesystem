@@ -6,17 +6,22 @@ import { MathUtils, Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
 
 export default function Cartilage({ order }: { order: number }) {
-  const { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef } =
-    useSection(order);
+  const {
+    visible,
+    visibleRef,
+    nextTransitionAmt,
+    nextTransitionAmtRef,
+    atPrev,
+  } = useSection(order);
   const { nodes } = useGLTF("/arm.glb") as any;
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
   const props = {
-    transparent: false,
-    opacity: 1,
+    transparent: true,
+    opacity,
   };
   const cartilage = {
-    transparent: false,
-    opacity: 1,
+    transparent: true,
+    opacity,
     color: "#ff0000",
   };
   const bone = useRef<Object3D>();
@@ -26,10 +31,15 @@ export default function Cartilage({ order }: { order: number }) {
   }
   useFrame(() => {
     if (!bone.current) return;
-    if (visibleRef.current && nextTransitionAmtRef.current < 0.5) {
+    if (
+      visibleRef.current &&
+      nextTransitionAmtRef.current < 0.5 &&
+      opacity.get() == 1
+    ) {
       bone.current.rotateY(0.002);
     }
   });
+  console.log(atPrev, order);
   const renderOrder = 0;
   return (
     <a.group
@@ -44,7 +54,7 @@ export default function Cartilage({ order }: { order: number }) {
       <a.group
         rotation={[Math.PI / 2, 0, 0]}
         renderOrder={renderOrder}
-        visible={opacity.to((v) => v > 0)}
+        visible={atPrev ? visible : opacity.to((v) => v > 0)}
       >
         <mesh geometry={nodes.Humerus_1.geometry}>
           {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
@@ -54,7 +64,7 @@ export default function Cartilage({ order }: { order: number }) {
           <a.meshPhysicalMaterial {...cartilage} />
         </mesh>
       </a.group>
-      <group renderOrder={renderOrder} visible={visible}>
+      <group renderOrder={renderOrder}>
         <group rotation={[Math.PI / 2, 0, 0]} renderOrder={renderOrder}>
           <mesh geometry={nodes.Radius_1.geometry}>
             <a.meshPhysicalMaterial {...props} />

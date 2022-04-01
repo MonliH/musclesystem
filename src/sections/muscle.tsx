@@ -14,15 +14,12 @@ export default function MuscleSection() {
   const state = useMuscle((state) => state);
   return (
     <Section>
-      <Heading mb="5">Muscle</Heading>
+      <Heading mb="5">How Flexing Works</Heading>
       <Text>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
+        Each bone is connected to one and other by a joint. Each joint is
+        composed of cartilage, bones, the muscle surrounding it and other
+        connective tissue. The muscles attach to these bones through tendons,
+        pulling on them to allow movement of the body.
       </Text>
       <Box mt="8">
         <Text fontWeight={"bold"}>Bicep Strength</Text>
