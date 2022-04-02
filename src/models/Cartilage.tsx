@@ -39,7 +39,6 @@ export default function Cartilage({ order }: { order: number }) {
       bone.current.rotateY(0.002);
     }
   });
-  console.log(atPrev, order);
   const renderOrder = 0;
   return (
     <a.group

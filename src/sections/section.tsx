@@ -4,13 +4,16 @@ import usePage from "stores/page";
 
 export default function Section({ children }: { children: ReactNode }) {
   return (
-    <Box p={200} pr="5px" h="100vh">
+    <Box p={["50px", "50px", "120px", "180px", "250px"]} pr="5px" h="100vh">
       <Box w="500px">{children}</Box>
     </Box>
   );
 }
 
-export function useSection(order: number): {
+export function useSection(
+  order: number,
+  sectionLen: number = 1
+): {
   visible: boolean;
   visibleRef: React.MutableRefObject<boolean>;
   nextTransitionAmt: number;
@@ -19,11 +22,11 @@ export function useSection(order: number): {
   atPrevRef: React.MutableRefObject<boolean>;
 } {
   const pageProgress = usePage((state) => state.pageProgress);
-  const sectionPixelOffset = pageProgress - order * window.innerHeight;
-  const visible =
-    sectionPixelOffset < 0 || sectionPixelOffset >= window.innerHeight
-      ? false
-      : true;
+  const sectionHeight = window.innerHeight * sectionLen;
+  const sectionPixelOffset = pageProgress - order * sectionHeight;
+  const visible = !(
+    sectionPixelOffset < 0 || sectionPixelOffset >= sectionHeight
+  );
   const visibleRef = useRef(visible);
   visibleRef.current = visible;
 
@@ -32,7 +35,7 @@ export function useSection(order: number): {
   atPrevRef.current = atPrev;
 
   const nextTransitionAmt = Math.min(
-    Math.max(sectionPixelOffset / window.innerHeight, 0),
+    Math.max(sectionPixelOffset / sectionHeight, 0),
     1
   );
   const nextTransitionAmtRef = useRef(nextTransitionAmt);

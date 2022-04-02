@@ -8,21 +8,22 @@ import { Suspense, UIEvent, useRef } from "react";
 import MuscleSection from "sections/muscle";
 import CartilageSection from "sections/cartilage";
 import BoneSection from "sections/bone";
-import usePage from "stores/page";
-import { OrbitControls } from "@react-three/drei";
+import MarrowSection from "sections/marrow";
+import BoneMarrow from "models/BoneMarrow";
 import Cartilage from "models/Cartilage";
+import usePage from "stores/page";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
   const setScroll = usePage((state) => state.setPageProgress);
   return (
     <Box w="100%" h="100%">
-      <Box w="65%" h="100%" top="0" left="35%" position="fixed">
+      <Box w="100%" h="100%" top="0" left="0" position="fixed">
         <Canvas
           shadows
-          camera={{ position: [-7, 5, 0.1], fov: 45 }}
+          camera={{ position: [-7, 5, -2.6], fov: 45 }}
           onCreated={({ camera }) => {
-            camera.lookAt(0, 0, 0.1);
+            camera.lookAt(0, 0, -2.6);
           }}
         >
           <ambientLight />
@@ -34,8 +35,9 @@ const Home: NextPage = () => {
             <Physics allowSleep>
               {/* <Debug scale={1.0}> */}
               <Bone order={0} />
-              <Cartilage order={1} />
-              <Arm order={2} ref={armRef} />
+              <BoneMarrow order={1} />
+              <Cartilage order={2} />
+              <Arm order={3} ref={armRef} />
               {/* <Bone order={2} /> */}
               {/* </Debug> */}
             </Physics>
@@ -53,10 +55,10 @@ const Home: NextPage = () => {
         onMouseDown={(e) => {
           switch (e.button) {
             case 0:
-              armRef.current!.flex("bi");
+              armRef.current?.flex("bi");
               break;
             case 2:
-              armRef.current!.flex("tri");
+              armRef.current?.flex("tri");
               break;
             default:
               break;
@@ -67,6 +69,7 @@ const Home: NextPage = () => {
         onContextMenu={(e) => e.preventDefault()}
       >
         <BoneSection />
+        <MarrowSection />
         <CartilageSection />
         <MuscleSection />
         <BoneSection />

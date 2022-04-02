@@ -11,7 +11,7 @@ export type ArmHandle = {
 
 const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   const { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef } =
-    useSection(order);
+    useSection(order, 2);
   const { nodes } = useGLTF("/arm.glb") as any;
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
   const bone = useRef<Object3D>();
