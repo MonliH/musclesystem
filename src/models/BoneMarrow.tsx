@@ -5,12 +5,19 @@ import { useSection } from "sections/section";
 import Marker from "./Mark";
 import lerp from "utils/lerp";
 import { Object3D } from "three";
+import { useFrame } from "@react-three/fiber";
 
 export default function BoneMarrow({ order }: { order: number }) {
   const group = useRef<Object3D>();
   const { nodes, materials } = useGLTF("/bone_marrow.glb") as any;
-  const { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef } =
-    useSection(order);
+  const {
+    visible,
+    visibleRef,
+    nextTransitionAmt,
+    nextTransitionAmtRef,
+    atPrevRef,
+    nextTransitionUnboundedRef,
+  } = useSection(order);
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
   const [props, api] = useSpring(() => ({
     x: window.innerWidth / 2 - 0.1,
@@ -36,6 +43,15 @@ export default function BoneMarrow({ order }: { order: number }) {
     transform: "translateZ(0.1px)",
     opacity: transitionCutoff == 0 ? 1 : 0,
   };
+  useFrame(() => {
+    if (
+      atPrevRef.current &&
+      group.current &&
+      nextTransitionUnboundedRef.current < -0.5
+    ) {
+      group.current.rotateZ(0.005);
+    }
+  });
   return (
     <a.group
       ref={group}

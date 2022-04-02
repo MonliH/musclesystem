@@ -20,8 +20,11 @@ export function useSection(
   nextTransitionAmtRef: React.MutableRefObject<number>;
   atPrev: boolean;
   atPrevRef: React.MutableRefObject<boolean>;
+  nextTransitionUnbounded: number;
+  nextTransitionUnboundedRef: React.MutableRefObject<number>;
 } {
-  const pageProgress = usePage((state) => state.pageProgress);
+  const pageProgress =
+    usePage((state) => state.pageProgress) + window.innerHeight * 0.4;
   const sectionHeight = window.innerHeight * sectionLen;
   const sectionPixelOffset = pageProgress - order * sectionHeight;
   const visible = !(
@@ -34,10 +37,11 @@ export function useSection(
   const atPrevRef = useRef(atPrev);
   atPrevRef.current = atPrev;
 
-  const nextTransitionAmt = Math.min(
-    Math.max(sectionPixelOffset / sectionHeight, 0),
-    1
-  );
+  const nextTransitionUnbounded = sectionPixelOffset / sectionHeight;
+  const nextTransitionUnboundedRef = useRef(nextTransitionUnbounded);
+  nextTransitionUnboundedRef.current = nextTransitionUnbounded;
+
+  const nextTransitionAmt = Math.min(Math.max(nextTransitionUnbounded, 0), 1);
   const nextTransitionAmtRef = useRef(nextTransitionAmt);
   nextTransitionAmtRef.current = nextTransitionAmt;
 
@@ -48,5 +52,7 @@ export function useSection(
     nextTransitionAmtRef,
     atPrev,
     atPrevRef,
+    nextTransitionUnbounded,
+    nextTransitionUnboundedRef,
   };
 }
