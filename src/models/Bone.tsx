@@ -24,6 +24,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
     }
   });
   const props = { transparent: true, opacity };
+  const currRot = bone.current?.rotation.y ?? Math.PI / 2;
   return (
     <a.group
       ref={bone}
@@ -31,14 +32,10 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       renderOrder={order}
       rotation={
         lerp(
-          [0, bone.current?.rotation.y ?? Math.PI / 2, 0],
+          [0, currRot, 0],
           [
             0,
-            Math.round(
-              (bone.current?.rotation.y ?? Math.PI / 2) / (Math.PI * 2)
-            ) *
-              (Math.PI * 2) +
-              Math.PI * 0.5,
+            Math.round(currRot / (Math.PI * 2)) * (Math.PI * 2) + Math.PI * 0.5,
             0,
           ],
           nextTransitionAmt

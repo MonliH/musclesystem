@@ -40,14 +40,15 @@ export default function Cartilage({ order }: { order: number }) {
     }
   });
   const renderOrder = 0;
+  const currRot = bone.current?.rotation.y ?? Math.PI / 4;
   return (
     <a.group
       ref={bone}
       renderOrder={renderOrder}
       visible={opacity.to((v) => v > 0)}
       rotation={lerp(
-        [0, bone.current?.rotation.y ?? Math.PI / 4, 0],
-        [0, 0, 0],
+        [0, currRot, 0],
+        [0, Math.round(currRot / (Math.PI * 2)) * (Math.PI * 2), 0],
         nextTransitionAmt
       )}
     >
