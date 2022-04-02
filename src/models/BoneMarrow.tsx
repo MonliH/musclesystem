@@ -29,21 +29,27 @@ export default function BoneMarrow({ order }: { order: number }) {
       bone.current.rotateY(0.002);
     }
   });
-  const rotation = [Math.PI * 1.5, 0, bone.current?.rotation.y ?? Math.PI / 2];
+  const rotation = [-Math.PI * 0.5, 0, bone.current?.rotation.y ?? Math.PI / 2];
+  const scale = [1.5, 1.5, 1.5];
   return (
     <a.group
       ref={group}
       visible={opacity.to((v) => v > 0)}
+      renderOrder={order}
       dispose={null}
       rotation={[
         MathUtils.lerp(rotation[0], 0, nextTransitionAmt),
         MathUtils.lerp(rotation[1], 0, nextTransitionAmt),
         MathUtils.lerp(rotation[2], 0, nextTransitionAmt),
       ]}
-      position={[0, 2, 0]}
-      scale={[1.5, 1.5, 1.5]}
+      position={[0, MathUtils.lerp(2, 0, nextTransitionAmt), 0]}
+      scale={[
+        MathUtils.lerp(scale[0], 1, nextTransitionAmt),
+        MathUtils.lerp(scale[1], 1, nextTransitionAmt),
+        MathUtils.lerp(scale[2], 1, nextTransitionAmt),
+      ]}
     >
-      <group rotation={[Math.PI / 2, 0, 0]}>
+      <group rotation={[Math.PI / 2, 0, 0]} renderOrder={order}>
         <mesh
           geometry={nodes.Humerus_1.geometry}
           material={nodes.Humerus_1.material}

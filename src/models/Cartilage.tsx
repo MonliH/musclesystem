@@ -44,6 +44,7 @@ export default function Cartilage({ order }: { order: number }) {
     <a.group
       ref={bone}
       renderOrder={renderOrder}
+      visible={opacity.to((v) => v > 0)}
       rotation={[
         MathUtils.lerp(rotation[0], 0, nextTransitionAmt),
         MathUtils.lerp(rotation[1], 0, nextTransitionAmt),
