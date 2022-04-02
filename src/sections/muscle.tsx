@@ -16,10 +16,15 @@ export default function MuscleSection() {
     <Section>
       <Heading mb="5">How Flexing Works</Heading>
       <Text>
-        Each bone is connected to one and other by a joint. Each joint is
-        composed of cartilage, bones, the muscle surrounding it and other
-        connective tissue. The muscles attach to these bones through tendons,
-        pulling on them to allow movement of the body.
+        Each bone is connected to one another by a joint. Each joint is composed
+        of cartilage, bones, the muscle surrounding it and other connective
+        tissue. The muscles attach to these bones through tendons. These muscles
+        contract to allow movement of the body.
+      </Text>
+      <Text mt="3">
+        Because skeletal muscles can only pull, they usually normally work in
+        pairs to move a bone back and forth. An example of this pairing (the
+        bicep brachialis and tricep brachii) is shown in the example.
       </Text>
       <Box mt="8">
         <Text fontWeight={"bold"}>Bicep Strength</Text>

@@ -19,7 +19,8 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   useFrame(() => {
     if (!bone.current) return;
     if (visibleRef.current && nextTransitionAmtRef.current < 0.5) {
-      bone.current.rotateY(0.005);
+      bone.current.rotation.y += 0.005;
+      bone.current.updateMatrixWorld();
     }
   });
   const props = { transparent: true, opacity };
@@ -30,8 +31,16 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       renderOrder={order}
       rotation={
         lerp(
-          [0, bone.current?.rotation.y ?? Math.PI / 4, 0],
-          [0, Math.PI / 2, 0],
+          [0, bone.current?.rotation.y ?? Math.PI / 2, 0],
+          [
+            0,
+            Math.round(
+              (bone.current?.rotation.y ?? Math.PI / 2) / (Math.PI * 2)
+            ) *
+              (Math.PI * 2) +
+              Math.PI * 0.5,
+            0,
+          ],
           nextTransitionAmt
         ) as [number, number, number]
       }
