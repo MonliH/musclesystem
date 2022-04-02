@@ -12,6 +12,7 @@ import MarrowSection from "sections/marrow";
 import BoneMarrow from "models/BoneMarrow";
 import Cartilage from "models/Cartilage";
 import usePage from "stores/page";
+import { OrbitControls } from "@react-three/drei";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);

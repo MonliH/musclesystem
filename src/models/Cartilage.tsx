@@ -2,8 +2,9 @@ import { useGLTF } from "@react-three/drei";
 import { useSpring, a } from "@react-spring/three";
 import { useSection } from "sections/section";
 import { useRef } from "react";
-import { MathUtils, Object3D } from "three";
+import { Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
+import lerp from "utils/lerp";
 
 export default function Cartilage({ order }: { order: number }) {
   const {
@@ -25,7 +26,6 @@ export default function Cartilage({ order }: { order: number }) {
     color: "#3895ff",
   };
   const bone = useRef<Object3D>();
-  const rotation = [0, bone.current?.rotation.y ?? Math.PI / 4, 0];
   if (!visible && bone.current) {
     bone.current.rotation.y = 0;
   }
@@ -45,11 +45,11 @@ export default function Cartilage({ order }: { order: number }) {
       ref={bone}
       renderOrder={renderOrder}
       visible={opacity.to((v) => v > 0)}
-      rotation={[
-        MathUtils.lerp(rotation[0], 0, nextTransitionAmt),
-        MathUtils.lerp(rotation[1], 0, nextTransitionAmt),
-        MathUtils.lerp(rotation[2], 0, nextTransitionAmt),
-      ]}
+      rotation={lerp(
+        [0, bone.current?.rotation.y ?? Math.PI / 4, 0],
+        [0, 0, 0],
+        nextTransitionAmt
+      )}
     >
       <a.group
         rotation={[Math.PI / 2, 0, 0]}
