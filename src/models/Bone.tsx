@@ -13,7 +13,7 @@ export type ArmHandle = {
 const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   const { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef } =
     useSection(order);
-  const { nodes } = useGLTF("/arm.glb") as any;
+  const { nodes } = useGLTF("/arm_full.glb") as any;
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
   const bone = useRef<Object3D>();
   useFrame(() => {
@@ -44,13 +44,15 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       position={[0, 2, 0]}
       scale={[1.5, 1.5, 1.5]}
     >
-      <mesh geometry={nodes.Humerus_2.geometry}>
-        {/* @ts-ignore */}
-        <a.meshPhysicalMaterial {...props} />
-      </mesh>
-      <mesh geometry={nodes.Humerus_1.geometry}>
-        <a.meshPhysicalMaterial {...props} />
-      </mesh>
+      <group rotation={[-Math.PI / 2, 0, 0]}>
+        <mesh geometry={nodes.Humerus002.geometry}>
+          {/* @ts-ignore */}
+          <a.meshPhysicalMaterial {...props} flatShading />
+        </mesh>
+        <mesh geometry={nodes.Humerus002_1.geometry}>
+          <a.meshPhysicalMaterial {...props} flatShading />
+        </mesh>
+      </group>
     </a.group>
   );
 };

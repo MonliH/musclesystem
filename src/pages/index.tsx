@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import { Physics } from "@react-three/cannon";
+import { Debug, Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
 import Arm, { ArmHandle } from "models/Arm";
@@ -9,10 +9,11 @@ import MuscleSection from "sections/muscle";
 import CartilageSection from "sections/cartilage";
 import BoneSection from "sections/bone";
 import MarrowSection from "sections/marrow";
+import MuscleMicroSection from "sections/muscleMicro";
 import BoneMarrow from "models/BoneMarrow";
 import Cartilage from "models/Cartilage";
 import usePage from "stores/page";
-import { OrbitControls } from "@react-three/drei";
+import FullArm from "models/FullArm";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -30,17 +31,14 @@ const Home: NextPage = () => {
           <ambientLight />
           <pointLight position={[1, 1, 1]} castShadow />
           <pointLight position={[-1, -1, -1]} castShadow />
-          {/* <axesHelper /> */}
-          {/* <OrbitControls /> */}
           <Suspense fallback={<Text>Loading...</Text>}>
             <Physics allowSleep>
-              {/* <Debug scale={1.0}> */}
+              <FullArm />
               <Bone order={0} />
               <BoneMarrow order={1} />
               <Cartilage order={2} />
               <Arm order={3} ref={armRef} />
               {/* <Bone order={2} /> */}
-              {/* </Debug> */}
             </Physics>
           </Suspense>
         </Canvas>
@@ -73,7 +71,7 @@ const Home: NextPage = () => {
         <MarrowSection />
         <CartilageSection />
         <MuscleSection />
-        <BoneSection />
+        <MuscleMicroSection />
       </Box>
     </Box>
   );

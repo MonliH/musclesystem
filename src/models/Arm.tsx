@@ -20,7 +20,7 @@ export type ArmHandle = {
 const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   const { visible, atPrev } = useSection(order);
   const flexing = useRef({ bicep: false, tricep: false });
-  const { nodes } = useGLTF("/arm.glb") as any;
+  const { nodes, materials } = useGLTF("/arm_full.glb") as any;
   const [bicepStrength, tricepStrength, mass] = useMuscle((state) => [
     state.bicepStrength,
     state.tricepStrength,
@@ -184,35 +184,30 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   };
   return (
     <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
-      <group rotation={[Math.PI / 2, 0, 0]}>
-        <mesh geometry={nodes.Humerus_1.geometry}>
+      <group>
+        <mesh geometry={nodes.Humerus002.geometry}>
           {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
           <a.meshPhysicalMaterial {...props} />
         </mesh>
-        <mesh geometry={nodes.Humerus_2.geometry}>
+        <mesh geometry={nodes.Humerus002_1.geometry}>
           <a.meshPhysicalMaterial {...props} />
         </mesh>
       </group>
       <group ref={lowerArm} renderOrder={order}>
         <group
-          rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
+          rotation={[Math.PI / 2, -Math.PI / 2 + 0.25, Math.PI / 2]}
           position={[1.5, 0, 0]}
         >
-          <mesh geometry={nodes.Radius_1.geometry}>
+          <mesh geometry={nodes.Radius002.geometry}>
             <a.meshPhysicalMaterial {...props} />
           </mesh>
-          <mesh geometry={nodes.Radius_2.geometry}>
+          <mesh geometry={nodes.Radius002_1.geometry}>
             <a.meshPhysicalMaterial {...props} />
           </mesh>
-        </group>
-        <group
-          rotation={[Math.PI / 2, 0.25, Math.PI / 2]}
-          position={[1.5, 0, 0]}
-        >
-          <mesh geometry={nodes.Ulna_1.geometry}>
+          <mesh geometry={nodes.Ulna002.geometry}>
             <a.meshPhysicalMaterial {...props} />
           </mesh>
-          <mesh geometry={nodes.Ulna_2.geometry}>
+          <mesh geometry={nodes.Ulna002_1.geometry}>
             <a.meshPhysicalMaterial {...props} />
           </mesh>
         </group>
