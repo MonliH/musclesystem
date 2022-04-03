@@ -8,9 +8,9 @@ import React, {
 import { useGLTF } from "@react-three/drei";
 import { useBox, useHingeConstraint } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { Matrix4, Object3D, Vector3 } from "three";
+import { Box3, Matrix4, Object3D, Vector3 } from "three";
 import useMuscle from "stores/muscle";
-import { useSpring, a } from "@react-spring/three";
+import { useSpring, a, config } from "@react-spring/three";
 import { useSection } from "sections/section";
 
 export type ArmHandle = {
@@ -43,8 +43,9 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
     },
   }));
   const [, box1Api] = useBox(() => ({
-    position: [0, -0.35 - 0.5 * 0.5 - 0.1, -0.5],
-    args: [2.5, 0.6, 10],
+    position: [0, 0, 2.5],
+    args: [2.5, 0.6, 4],
+    rotation: [-0.3, 0, 0],
     userData: { id: 0 },
   }));
   const [, box2Api] = useBox(() => ({
@@ -110,6 +111,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       }
     },
   }));
+  const bicep = useRef<Object3D>(null);
   const tricep = useRef<Object3D>(null);
   const weight = useRef<Object3D>(null);
   useEffect(() => {
@@ -119,10 +121,21 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   const fakeTricepOffset = new Vector3(w * 0.5 - 0.5, -0.1, 0);
   const weightRadius = Math.cbrt((mass - 0.99) * 0.1);
   const weightOffset = new Vector3(-w * 0.5 - weightRadius - 0.1, 0, 0);
+  const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
+  const { opacityFast } = useSpring({
+    opacityFast: visible ? 1 : 0,
+    config: config.stiff,
+  });
+
   useFrame(() => {
     if (!lowerArm.current) return;
     if (!attachment.current) return;
-    if (attachment.current && tricep.current && weight.current) {
+    if (
+      attachment.current &&
+      bicep.current &&
+      weight.current &&
+      tricep.current
+    ) {
       const weightPos = lowerArm.current.localToWorld(weightOffset.clone());
       weight.current.position.set(weightPos.x, weightPos.y, weightPos.z);
       weight.current.updateMatrix();
@@ -135,16 +148,18 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       attachmentPos.y = 0.3;
       let orientation = new Matrix4();
       let offsetRotation = new Matrix4();
-      offsetRotation = offsetRotation.makeRotationX(Math.PI / 2);
+      offsetRotation = offsetRotation.makeRotationY(Math.PI);
       orientation.lookAt(attachmentPos, bicepPos, new Vector3(0, 1, 0));
       orientation = orientation.multiply(offsetRotation);
 
       const distance = attachmentPos.distanceTo(bicepPos);
-      const position = bicepPos.clone().add(attachmentPos).divideScalar(2);
-      tricep.current.position.set(position.x, position.y, position.z);
-      tricep.current.quaternion.setFromRotationMatrix(orientation);
-      const radius = 6 / Math.max((distance - 3.2) * 5, 1);
-      tricep.current.scale.set(radius, distance, radius);
+      const position = bicepPos.clone().add(attachmentPos); //.divideScalar(2);
+      bicep.current.position.set(position.x, position.y - 0.6, position.z + 3);
+      bicep.current.quaternion.setFromRotationMatrix(orientation);
+      const radius = 0.5 / Math.max((distance - 3.2) * 5, 1);
+      bicep.current.scale.set(1 + radius, 1 + radius, distance / 4);
+      tricep.current.scale.setX(1 - radius * 0.8);
+      tricep.current.scale.setY(1 - radius * 0.8);
     }
 
     if (flexing.current.bicep) {
@@ -174,14 +189,18 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
         [tricepPos.x, tricepPos.y, tricepPos.z]
       );
     }
+    const currOpacity = opacityFast.get();
+    materials.Muscle.opacity = currOpacity;
+    materials.Tendon.opacity = currOpacity;
   });
 
-  const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
   const props = {
     transparent: true,
     opacity,
     depthWrite: atPrev ? false : true,
   };
+  materials.Muscle.transparent = true;
+  materials.Tendon.transparent = true;
   return (
     <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
       <group>
@@ -217,10 +236,56 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
         {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
         <a.meshPhysicalMaterial {...props} color="cyan" />
       </mesh>
-      <mesh ref={tricep}>
+      {/* <mesh ref={tricep}>
         <cylinderGeometry args={[0.01, 0.01, 1, 10]} />
         <a.meshPhysicalMaterial {...props} color="red" />
-      </mesh>
+      </mesh> */}
+
+      <group ref={bicep}>
+        <mesh
+          geometry={nodes.Long_head_of_biceps_brachii001.geometry}
+          material={materials.Muscle}
+        />
+        <mesh
+          geometry={nodes.Long_head_of_biceps_brachii001_1.geometry}
+          material={materials.Tendon}
+        />
+        <mesh
+          geometry={nodes.Short_head_of_biceps_brachii001.geometry}
+          material={materials.Muscle}
+        />
+        <mesh
+          geometry={nodes.Short_head_of_biceps_brachii001_1.geometry}
+          material={materials.Tendon}
+        />
+      </group>
+
+      <group ref={tricep} position={[0, -0.15, 0]} rotation={[0.04, 0, 0]}>
+        <mesh
+          geometry={nodes.Lateral_head_of_triceps_brachii001.geometry}
+          material={materials.Muscle}
+        />
+        <mesh
+          geometry={nodes.Lateral_head_of_triceps_brachii001_1.geometry}
+          material={materials.Tendon}
+        />
+        <mesh
+          geometry={nodes.Long_head_of_triceps_brachii001.geometry}
+          material={materials.Muscle}
+        />
+        <mesh
+          geometry={nodes.Long_head_of_triceps_brachii001_1.geometry}
+          material={materials.Tendon}
+        />
+        <mesh
+          geometry={nodes.Medial_head_of_triceps_brachii001.geometry}
+          material={materials.Muscle}
+        />
+        <mesh
+          geometry={nodes.Medial_head_of_triceps_brachii001_1.geometry}
+          material={materials.Tendon}
+        />
+      </group>
     </a.group>
   );
 };
