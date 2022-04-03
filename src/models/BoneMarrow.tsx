@@ -74,7 +74,7 @@ export default function BoneMarrow({ order }: { order: number }) {
           ) as [number, number, number]
       )}
       position={[0, lerp(2, 0, transitionCutoff) as number, 0]}
-      scale={lerp([1.5, 1.5, 1.5], [1, 1, 1], transitionCutoff)}
+      scale={lerp([1.5, 1.5, 1.5], [0.999, 0.999, 0.999], transitionCutoff)}
     >
       <Marker
         position={[0.9, 0, 0]}

@@ -15,6 +15,7 @@ import Cartilage from "models/Cartilage";
 import usePage from "stores/page";
 import FullArm from "models/FullArm";
 import { OrbitControls } from "@react-three/drei";
+import Tendons from "sections/tendon";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -38,7 +39,7 @@ const Home: NextPage = () => {
               <Bone order={0} />
               <BoneMarrow order={1} />
               <Cartilage order={2} />
-              <Arm order={3} ref={armRef} />
+              <Arm order={4} ref={armRef} />
               {/* <Bone order={2} /> */}
             </Physics>
           </Suspense>
@@ -71,6 +72,7 @@ const Home: NextPage = () => {
         <BoneSection />
         <MarrowSection />
         <CartilageSection />
+        <Tendons />
         <MuscleSection />
         <MuscleMicroSection />
       </Box>

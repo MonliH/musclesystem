@@ -158,8 +158,14 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       bicep.current.quaternion.setFromRotationMatrix(orientation);
       const radius = 0.5 / Math.max((distance - 3.2) * 5, 1);
       bicep.current.scale.set(1 + radius, 1 + radius, distance / 4);
-      tricep.current.scale.setX(1 - radius * 0.8);
-      tricep.current.scale.setY(1 - radius * 0.8);
+
+      const tricepPos = lowerArm.current.localToWorld(
+        new Vector3(w * 0.5 - 0.5, -0.15, 0)
+      );
+      const triDistance = attachmentPos.distanceTo(tricepPos);
+      const triRadius = 0.5 / Math.max((triDistance - 3.2) * 5, 1);
+      tricep.current.scale.setX(1 - triRadius * 0.8);
+      tricep.current.scale.setY(1 - triRadius * 0.8);
     }
 
     if (flexing.current.bicep) {
