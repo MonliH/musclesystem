@@ -1,12 +1,14 @@
 import { useGLTF } from "@react-three/drei";
 import { useSpring, a } from "@react-spring/three";
 import { useSection } from "sections/section";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Material, Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
 import lerp from "utils/lerp";
 
 export default function Cartilage({ order }: { order: number }) {
+  const { nodes, materials } = useGLTF("/arm_full.glb") as any;
+
   const {
     visible,
     visibleRef,
@@ -14,29 +16,31 @@ export default function Cartilage({ order }: { order: number }) {
     nextTransitionAmtRef,
     atPrev,
   } = useSection(order);
-  const { nodes, materials } = useGLTF("/arm_full.glb") as any;
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
+  const [props, api] = useSpring(() => ({
+    y: window.innerHeight / 2,
+  }));
+
   const cartilage = {
     transparent: true,
     opacity,
     color: "red",
   };
   const bone = useRef<Object3D>();
-  if (!visible && bone.current) {
-    bone.current.rotation.y = 0;
-  }
-  useFrame(() => {
-    if (!bone.current) return;
-    if (
-      visibleRef.current &&
-      nextTransitionAmtRef.current < 0.5 &&
-      opacity.get() == 1
-    ) {
-      bone.current.rotateY(0.002);
-    }
+
+  useEffect(() => {
+    const mouseMove = (e: MouseEvent) => {
+      if (!visibleRef.current || nextTransitionAmtRef.current > 0.5) return;
+      api({ y: e.clientY });
+    };
+    window.addEventListener("mousemove", mouseMove);
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+    };
   });
-  const renderOrder = 0;
-  const currRot = bone.current?.rotation.y ?? Math.PI / 4;
+  if (!visible || nextTransitionAmt > 0.5) {
+    api({ y: window.innerHeight * 0.7 });
+  }
 
   const boneMat = (
     // @ts-ignore
@@ -47,15 +51,22 @@ export default function Cartilage({ order }: { order: number }) {
     ></a.meshPhysicalMaterial>
   );
 
+  const renderOrder = 0;
   return (
     <a.group
       ref={bone}
       renderOrder={renderOrder}
       visible={opacity.to((v) => v > 0)}
-      rotation={lerp(
-        [0, currRot, 0],
-        [0, Math.round(currRot / (Math.PI * 2)) * (Math.PI * 2), 0],
-        nextTransitionAmt
+      // @ts-ignore
+      rotation={props.y.to(
+        (v) =>
+          lerp(
+            [0, 0, (v / window.innerHeight - 0.7) * 2],
+            [0, 0, 0],
+            nextTransitionAmtRef.current < 0.5
+              ? 0
+              : (nextTransitionAmtRef.current - 0.5) * 2
+          ) as [number, number, number]
       )}
     >
       <a.group

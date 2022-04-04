@@ -62,6 +62,7 @@ export default function Tendon({ order }: { order: number }) {
   if (!visible || nextTransitionAmt > 0.5) {
     api({ y: window.innerHeight * 0.7 });
   }
+
   const transitionCutoff =
     nextTransitionAmt < 0.5 ? 0 : (nextTransitionAmt - 0.5) * 2;
   const labelProps = {
