@@ -34,11 +34,18 @@ export default function Cartilage({ order }: { order: number }) {
     ) {
       bone.current.rotateY(0.002);
     }
-    materials.Bone.opacity = opacity.get();
   });
   const renderOrder = 0;
   const currRot = bone.current?.rotation.y ?? Math.PI / 4;
-  materials.Bone.transparent = true;
+
+  const boneMat = (
+    // @ts-ignore
+    <a.meshPhysicalMaterial
+      color={materials.Bone.color}
+      transparent={true}
+      opacity={opacity}
+    ></a.meshPhysicalMaterial>
+  );
 
   return (
     <a.group
@@ -55,20 +62,17 @@ export default function Cartilage({ order }: { order: number }) {
         renderOrder={renderOrder}
         visible={atPrev ? visible : opacity.to((v) => v > 0)}
       >
-        <mesh
-          geometry={nodes.Humerus002.geometry}
-          material={materials.Bone}
-        ></mesh>
+        <mesh geometry={nodes.Humerus002.geometry}>{boneMat}</mesh>
         <mesh geometry={nodes.Humerus002_1.geometry}>
           <a.meshPhysicalMaterial {...cartilage} />
         </mesh>
       </a.group>
-      <mesh geometry={nodes.Radius002.geometry} material={materials.Bone} />
+      <mesh geometry={nodes.Radius002.geometry}>{boneMat}</mesh>
       <mesh geometry={nodes.Radius002_1.geometry}>
         {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
         <a.meshPhysicalMaterial {...cartilage} />
       </mesh>
-      <mesh geometry={nodes.Ulna002.geometry} material={materials.Bone} />
+      <mesh geometry={nodes.Ulna002.geometry}>{boneMat}</mesh>
       <mesh geometry={nodes.Ulna002_1.geometry}>
         <a.meshPhysicalMaterial {...cartilage} />
       </mesh>

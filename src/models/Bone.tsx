@@ -6,11 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import lerp from "utils/lerp";
 import { Object3D } from "three";
 
-export type ArmHandle = {
-  flex: (pressed: "bi" | "tri" | null) => void;
-};
-
-const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
+export default function Arm({ order }: { order: number }) {
   const { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef } =
     useSection(order);
   const { nodes } = useGLTF("/arm_full.glb") as any;
@@ -55,7 +51,4 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       </group>
     </a.group>
   );
-};
-
-const ArmC = forwardRef(Arm);
-export default ArmC;
+}

@@ -171,5 +171,3 @@ export default function BoneMarrow({ order }: { order: number }) {
     </a.group>
   );
 }
-
-useGLTF.preload("/bone_marrow.glb");

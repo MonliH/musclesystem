@@ -195,9 +195,6 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
         [tricepPos.x, tricepPos.y, tricepPos.z]
       );
     }
-    const currOpacity = opacityFast.get();
-    materials.Muscle.opacity = currOpacity;
-    materials.Tendon.opacity = currOpacity;
   });
 
   const props = {
@@ -205,36 +202,37 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
     opacity,
     depthWrite: atPrev ? false : true,
   };
-  materials.Muscle.transparent = true;
-  materials.Tendon.transparent = true;
+  // @ts-ignore
+  const boneMat = <a.meshPhysicalMaterial {...props} />;
+  const muscleMat = (
+    <a.meshPhysicalMaterial
+      color={materials.Muscle.color}
+      transparent
+      opacity={opacity}
+    />
+  );
+  const tendonMat = (
+    <a.meshPhysicalMaterial
+      color={materials.Tendon.color}
+      transparent
+      opacity={opacity}
+    />
+  );
   return (
     <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
       <group>
-        <mesh geometry={nodes.Humerus002.geometry}>
-          {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
-          <a.meshPhysicalMaterial {...props} />
-        </mesh>
-        <mesh geometry={nodes.Humerus002_1.geometry}>
-          <a.meshPhysicalMaterial {...props} />
-        </mesh>
+        <mesh geometry={nodes.Humerus002.geometry}>{boneMat}</mesh>
+        <mesh geometry={nodes.Humerus002_1.geometry}>{boneMat}</mesh>
       </group>
       <group ref={lowerArm} renderOrder={order}>
         <group
           rotation={[Math.PI / 2, -Math.PI / 2 + 0.25, Math.PI / 2]}
           position={[1.5, 0, 0]}
         >
-          <mesh geometry={nodes.Radius002.geometry}>
-            <a.meshPhysicalMaterial {...props} />
-          </mesh>
-          <mesh geometry={nodes.Radius002_1.geometry}>
-            <a.meshPhysicalMaterial {...props} />
-          </mesh>
-          <mesh geometry={nodes.Ulna002.geometry}>
-            <a.meshPhysicalMaterial {...props} />
-          </mesh>
-          <mesh geometry={nodes.Ulna002_1.geometry}>
-            <a.meshPhysicalMaterial {...props} />
-          </mesh>
+          <mesh geometry={nodes.Radius002.geometry}>{boneMat}</mesh>
+          <mesh geometry={nodes.Radius002_1.geometry}>{boneMat}</mesh>
+          <mesh geometry={nodes.Ulna002.geometry}>{boneMat}</mesh>
+          <mesh geometry={nodes.Ulna002_1.geometry}>{boneMat}</mesh>
         </group>
       </group>
       <mesh ref={weight}>
@@ -248,55 +246,43 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
       </mesh> */}
 
       <group ref={bicep}>
-        <mesh
-          geometry={nodes.Long_head_of_biceps_brachii001.geometry}
-          material={materials.Muscle}
-        />
-        <mesh
-          geometry={nodes.Long_head_of_biceps_brachii001_1.geometry}
-          material={materials.Tendon}
-        />
-        <mesh
-          geometry={nodes.Short_head_of_biceps_brachii001.geometry}
-          material={materials.Muscle}
-        />
-        <mesh
-          geometry={nodes.Short_head_of_biceps_brachii001_1.geometry}
-          material={materials.Tendon}
-        />
+        <mesh geometry={nodes.Long_head_of_biceps_brachii001.geometry}>
+          {muscleMat}
+        </mesh>
+        <mesh geometry={nodes.Long_head_of_biceps_brachii001_1.geometry}>
+          {tendonMat}
+        </mesh>
+        <mesh geometry={nodes.Short_head_of_biceps_brachii001.geometry}>
+          {muscleMat}
+        </mesh>
+        <mesh geometry={nodes.Short_head_of_biceps_brachii001_1.geometry}>
+          {tendonMat}
+        </mesh>
       </group>
 
       <group ref={tricep} position={[0, -0.15, 0]} rotation={[0.04, 0, 0]}>
-        <mesh
-          geometry={nodes.Lateral_head_of_triceps_brachii001.geometry}
-          material={materials.Muscle}
-        />
-        <mesh
-          geometry={nodes.Lateral_head_of_triceps_brachii001_1.geometry}
-          material={materials.Tendon}
-        />
-        <mesh
-          geometry={nodes.Long_head_of_triceps_brachii001.geometry}
-          material={materials.Muscle}
-        />
-        <mesh
-          geometry={nodes.Long_head_of_triceps_brachii001_1.geometry}
-          material={materials.Tendon}
-        />
-        <mesh
-          geometry={nodes.Medial_head_of_triceps_brachii001.geometry}
-          material={materials.Muscle}
-        />
-        <mesh
-          geometry={nodes.Medial_head_of_triceps_brachii001_1.geometry}
-          material={materials.Tendon}
-        />
+        <mesh geometry={nodes.Lateral_head_of_triceps_brachii001.geometry}>
+          {muscleMat}
+        </mesh>
+        <mesh geometry={nodes.Lateral_head_of_triceps_brachii001_1.geometry}>
+          {tendonMat}
+        </mesh>
+        <mesh geometry={nodes.Long_head_of_triceps_brachii001.geometry}>
+          {muscleMat}
+        </mesh>
+        <mesh geometry={nodes.Long_head_of_triceps_brachii001_1.geometry}>
+          {tendonMat}
+        </mesh>
+        <mesh geometry={nodes.Medial_head_of_triceps_brachii001.geometry}>
+          {muscleMat}
+        </mesh>
+        <mesh geometry={nodes.Medial_head_of_triceps_brachii001_1.geometry}>
+          {tendonMat}
+        </mesh>
       </group>
     </a.group>
   );
 };
-
-useGLTF.preload("/arm.glb");
 
 const ArmC = forwardRef(Arm);
 export default ArmC;

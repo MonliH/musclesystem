@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import { Debug, Physics } from "@react-three/cannon";
+import { Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
 import Arm, { ArmHandle } from "models/Arm";
@@ -13,8 +13,7 @@ import MuscleMicroSection from "sections/muscleMicro";
 import BoneMarrow from "models/BoneMarrow";
 import Cartilage from "models/Cartilage";
 import usePage from "stores/page";
-import FullArm from "models/FullArm";
-import { OrbitControls } from "@react-three/drei";
+import Tendon from "models/Tendon";
 import Tendons from "sections/tendon";
 
 const Home: NextPage = () => {
@@ -35,10 +34,10 @@ const Home: NextPage = () => {
           <pointLight position={[-1, -1, -1]} castShadow />
           <Suspense fallback={<Text>Loading...</Text>}>
             <Physics allowSleep>
-              <FullArm />
               <Bone order={0} />
               <BoneMarrow order={1} />
               <Cartilage order={2} />
+              <Tendon order={3} />
               <Arm order={4} ref={armRef} />
               {/* <Bone order={2} /> */}
             </Physics>
