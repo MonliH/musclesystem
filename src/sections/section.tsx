@@ -4,7 +4,12 @@ import usePage from "stores/page";
 
 export default function Section({ children }: { children: ReactNode }) {
   return (
-    <Box p={["50px", "50px", "120px", "180px", "250px"]} pr="5px" h="100vh">
+    <Box
+      p={["50px", "50px", "120px", "180px", "250px"]}
+      pr={["5px", "5px", "5px", "5px", "5px"]}
+      h="100vh"
+      width="fit-content"
+    >
       <Box w="500px">{children}</Box>
     </Box>
   );
@@ -26,7 +31,7 @@ export function useSection(
   const pageProgress =
     usePage((state) => state.pageProgress) + window.innerHeight * 0.4;
   const sectionHeight = window.innerHeight * sectionLen;
-  const sectionPixelOffset = pageProgress - order * sectionHeight;
+  const sectionPixelOffset = pageProgress - order * window.innerHeight;
   const visible = !(
     sectionPixelOffset < 0 || sectionPixelOffset >= sectionHeight
   );

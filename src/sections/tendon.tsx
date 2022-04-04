@@ -1,7 +1,7 @@
 import { Heading, Text } from "@chakra-ui/react";
 import Section from "sections/section";
 
-export default function Tendons() {
+export default function TendonsSection() {
   return (
     <Section>
       <Heading mb="5">Tendons</Heading>

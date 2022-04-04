@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { Line, Text, useGLTF } from "@react-three/drei";
+import { Line, useGLTF } from "@react-three/drei";
 import { useSection } from "sections/section";
 import { a, config, useSpring } from "@react-spring/three";
-import { useFrame } from "@react-three/fiber";
 import { Object3D } from "three";
 import lerp from "utils/lerp";
 import Marker from "./Mark";
@@ -79,7 +78,7 @@ export default function Tendon({ order }: { order: number }) {
   };
 
   const { opacity: fastOpacity } = useSpring({
-    opacity: nextTransitionAmt < 0.5 && visible ? 1 : 0,
+    opacity: transitionCutoff == 0 && visible ? 1 : 0,
     config: config.stiff,
   });
 

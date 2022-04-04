@@ -14,13 +14,23 @@ import BoneMarrow from "models/BoneMarrow";
 import Cartilage from "models/Cartilage";
 import usePage from "stores/page";
 import Tendon from "models/Tendon";
-import Tendons from "sections/tendon";
+import TendonsSection from "sections/tendon";
+import LigamentsSection from "sections/ligaments";
+import { OrbitControls } from "@react-three/drei";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
   const setScroll = usePage((state) => state.setPageProgress);
   return (
-    <Box w="100%" h="100%">
+    <Box
+      w="100%"
+      h="100%"
+      onContextMenu={(e) => e.preventDefault()}
+      overflowY="scroll"
+      onScroll={(e: UIEvent<HTMLDivElement>) => {
+        setScroll(e.currentTarget.scrollTop);
+      }}
+    >
       <Box w="100%" h="100%" top="0" left="0" position="fixed">
         <Canvas
           shadows
@@ -37,21 +47,15 @@ const Home: NextPage = () => {
               <Bone order={0} />
               <BoneMarrow order={1} />
               <Cartilage order={2} />
-              <Tendon order={3} />
-              <Arm order={4} ref={armRef} />
-              {/* <Bone order={2} /> */}
+              <Tendon order={4} />
+              <Arm order={5} ref={armRef} />
             </Physics>
           </Suspense>
         </Canvas>
       </Box>
       <Box
         position="relative"
-        width="100%"
         zIndex="10"
-        height="100%"
-        onScroll={(e: UIEvent<HTMLDivElement>) => {
-          setScroll(e.currentTarget.scrollTop);
-        }}
         onMouseDown={(e) => {
           switch (e.button) {
             case 0:
@@ -65,13 +69,12 @@ const Home: NextPage = () => {
           }
         }}
         onMouseUp={() => armRef.current?.flex(null)}
-        overflowY="scroll"
-        onContextMenu={(e) => e.preventDefault()}
       >
         <BoneSection />
         <MarrowSection />
         <CartilageSection />
-        <Tendons />
+        <LigamentsSection />
+        <TendonsSection />
         <MuscleSection />
         <MuscleMicroSection />
       </Box>

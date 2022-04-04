@@ -121,9 +121,8 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   const fakeTricepOffset = new Vector3(w * 0.5 - 0.5, -0.1, 0);
   const weightRadius = Math.cbrt((mass - 0.99) * 0.1);
   const weightOffset = new Vector3(-w * 0.5 - weightRadius - 0.1, 0, 0);
-  const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
-  const { opacityFast } = useSpring({
-    opacityFast: visible ? 1 : 0,
+  const { opacity } = useSpring({
+    opacity: visible ? 1 : 0,
     config: config.stiff,
   });
 
