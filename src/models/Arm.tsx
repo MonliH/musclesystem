@@ -208,6 +208,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
     <a.meshPhysicalMaterial
       color={materials.Muscle.color}
       transparent
+      depthWrite={atPrev ? false : true}
       opacity={opacity}
     />
   );
@@ -215,6 +216,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
     <a.meshPhysicalMaterial
       color={materials.Tendon.color}
       transparent
+      depthWrite={atPrev ? false : true}
       opacity={opacity}
     />
   );

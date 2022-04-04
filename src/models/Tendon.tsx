@@ -20,7 +20,9 @@ export default function Tendon({ order }: { order: number }) {
     nextTransitionAmtRef,
     atPrev,
   } = useSection(order);
-  const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
+  const { opacity } = useSpring({
+    opacity: visible && nextTransitionAmt < 0.75 ? 1 : 0,
+  });
   const [props, api] = useSpring(() => ({
     y: window.innerHeight / 2,
   }));
@@ -31,13 +33,18 @@ export default function Tendon({ order }: { order: number }) {
       color={materials.Bone.color}
       transparent
       opacity={opacity}
+      depthWrite={!visible && !atPrev ? false : true}
     />
   );
   const cartilageMat = (
     // @ts-ignore
-    <a.meshPhysicalMaterial color="#dbdbdb" transparent opacity={opacity} />
+    <a.meshPhysicalMaterial
+      color="#dbdbdb"
+      transparent
+      opacity={opacity}
+      depthWrite={!visible && !atPrev ? false : true}
+    />
   );
-
   const muscleMat = (
     <a.meshPhysicalMaterial
       color={materials.Muscle.color}
