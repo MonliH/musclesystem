@@ -6,6 +6,7 @@ export default function Section({ children }: { children: ReactNode }) {
   return (
     <Box
       p={["50px", "50px", "120px", "180px", "250px"]}
+      pl={["50px", "50px", "120px", "180px", "180px"]}
       pr={["5px", "5px", "5px", "5px", "5px"]}
       h="100vh"
       width="fit-content"

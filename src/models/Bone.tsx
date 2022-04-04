@@ -39,6 +39,9 @@ export default function Arm({ order }: { order: number }) {
       }
       position={[0, 2, 0]}
       scale={[1.5, 1.5, 1.5]}
+      onPointerOver={(e) => {
+        console.log("HI");
+      }}
     >
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh geometry={nodes.Humerus002.geometry}>
