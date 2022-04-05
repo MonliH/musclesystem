@@ -1,15 +1,19 @@
 import { ReactNode, useRef } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 import usePage from "stores/page";
 
-export default function Section({ children }: { children: ReactNode }) {
+export default function Section({
+  children,
+  ...props
+}: { children: ReactNode } & BoxProps) {
   return (
     <Box
       p={["50px", "50px", "120px", "180px", "250px"]}
-      pl={["50px", "50px", "120px", "180px", "180px"]}
+      pl={["50px", "50px", "120px", "120px", "150px", "250px"]}
       pr={["5px", "5px", "5px", "5px", "5px"]}
       h="100vh"
       width="fit-content"
+      {...props}
     >
       <Box w="500px">{children}</Box>
     </Box>

@@ -17,6 +17,7 @@
     "@react-three/cannon": "^5.1.0",
     "@react-three/drei": "^8.19.5",
     "@react-three/fiber": "^7.0.26",
+    "focus-visible": "^5.2.0",
     "framer-motion": "^6",
     "next": "12.1.1",
     "react": "17.0.2",
