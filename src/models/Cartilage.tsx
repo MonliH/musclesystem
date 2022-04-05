@@ -75,6 +75,10 @@ export default function Cartilage({ order }: { order: number }) {
   );
 
   const renderOrder = 0;
+  const [{ opacity: cartImageOpacity }, cartApi] = useSpring(() => {
+    opacity: 0;
+  });
+
   return (
     <a.group
       ref={bone}
@@ -91,8 +95,13 @@ export default function Cartilage({ order }: { order: number }) {
               : (nextTransitionAmtRef.current - 0.5) * 2
           ) as [number, number, number]
       )}
-      onPointerOver={() => {
-        console.log("over");
+      onPointerEnter={() => {
+        if (nextTransitionAmtRef.current < 0.5 && visibleRef.current) {
+          cartApi({ opacity: 1 });
+        }
+      }}
+      onPointerLeave={() => {
+        cartApi({ opacity: 0 });
       }}
     >
       <a.group

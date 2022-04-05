@@ -18,6 +18,8 @@ import TendonsSection from "sections/tendon";
 import LigamentsSection from "sections/ligaments";
 import JointTypes from "sections/typesOfJoints";
 import Script from "next/script";
+import BursaeSection from "sections/bursae";
+import FopSection from "sections/fop";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -34,7 +36,7 @@ const Home: NextPage = () => {
     ) {
       initedRef.current = true;
       const easeFunction = (remaningScrollDistance: number) => {
-        return remaningScrollDistance / 15 + 1;
+        return remaningScrollDistance / 10 + 1;
       };
 
       const onScroll = (_e: Event) => {
@@ -86,8 +88,8 @@ const Home: NextPage = () => {
                 <Bone order={0} />
                 <BoneMarrow order={1} />
                 <Cartilage order={2} />
-                <Tendon order={4} />
-                <Arm order={6} ref={armRef} />
+                <Tendon order={5} />
+                <Arm order={7} ref={armRef} />
               </Physics>
             </Suspense>
           </Canvas>
@@ -114,10 +116,13 @@ const Home: NextPage = () => {
           <MarrowSection />
           <CartilageSection />
           <LigamentsSection />
+          <BursaeSection order={4} />
           <TendonsSection />
           <JointTypes />
           <MuscleSection />
           <MuscleMicroSection />
+          <FopSection order={9} />
+          <Box height="20vh"></Box>
         </Box>
       </Box>
     </>

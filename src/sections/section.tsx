@@ -29,10 +29,10 @@ export function useSection(
   nextTransitionUnbounded: number;
   nextTransitionUnboundedRef: React.MutableRefObject<number>;
 } {
-  const pageProgress =
-    usePage((state) => state.pageProgress) + window.innerHeight * 0.4;
-  const sectionHeight = window.innerHeight * sectionLen;
-  const sectionPixelOffset = pageProgress - order * window.innerHeight;
+  const height = typeof window == "undefined" ? 1000 : window.innerHeight;
+  const pageProgress = usePage((state) => state.pageProgress) + height * 0.4;
+  const sectionHeight = height * sectionLen;
+  const sectionPixelOffset = pageProgress - order * height;
   const visible = !(
     sectionPixelOffset < 0 || sectionPixelOffset >= sectionHeight
   );
