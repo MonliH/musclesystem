@@ -188,7 +188,7 @@ export default function Joints({ order }: { order: number }) {
     api.position.set(x, y, z);
   };
   const props = { opacity, transparent: true, depthWrite: visible };
-  const textStyle = {
+  const textStyle: any = {
     width: "200px",
     textAlign: "center",
     fontWeight: "bold",
