@@ -8,7 +8,7 @@ import React, {
 import { useGLTF } from "@react-three/drei";
 import { useBox, useHingeConstraint } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { Box3, Matrix4, Object3D, Vector3 } from "three";
+import { Matrix4, Object3D, Vector3 } from "three";
 import useMuscle from "stores/muscle";
 import { useSpring, a, config } from "@react-spring/three";
 import { useSection } from "sections/section";

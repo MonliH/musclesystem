@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useRef } from "react";
+import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useSpring, a } from "@react-spring/three";
 import { useSection } from "sections/section";

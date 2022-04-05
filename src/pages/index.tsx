@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import { Physics } from "@react-three/cannon";
+import { Debug, Physics } from "@react-three/cannon";
 import { Canvas } from "@react-three/fiber";
 import type { NextPage } from "next";
 import Arm, { ArmHandle } from "models/Arm";
@@ -20,6 +20,8 @@ import JointTypes from "sections/typesOfJoints";
 import Script from "next/script";
 import BursaeSection from "sections/bursae";
 import FopSection from "sections/fop";
+import Joints from "models/Joints";
+import { OrbitControls } from "@react-three/drei";
 
 const Home: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -84,11 +86,14 @@ const Home: NextPage = () => {
             <pointLight position={[1, 1, 1]} castShadow />
             <pointLight position={[-1, -1, -1]} castShadow />
             <Suspense fallback={<Text>Loading...</Text>}>
-              <Physics allowSleep>
+              <Physics>
                 <Bone order={0} />
                 <BoneMarrow order={1} />
                 <Cartilage order={2} />
                 <Tendon order={5} />
+                <Physics>
+                  <Joints order={6} />
+                </Physics>
                 <Arm order={7} ref={armRef} />
               </Physics>
             </Suspense>
