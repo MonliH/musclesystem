@@ -1,23 +1,23 @@
 import React, { ReactNode, useEffect, useRef } from "react";
 import { Box, BoxProps, Spacer, VStack } from "@chakra-ui/react";
 import usePage from "stores/page";
-import { useRouter } from "next/router";
 import { URL_TO_FIRST_CHILD_HREF } from "components/header";
 
 export default function Section({
   children,
+  innerWidth = "500px",
   ...props
-}: { children: ReactNode } & BoxProps) {
+}: { children?: ReactNode; innerWidth?: BoxProps["w"] } & BoxProps) {
   return (
     <Box
       p={["50px", "50px", "120px", "180px", "250px"]}
       pl={["50px", "50px", "120px", "120px", "150px", "250px"]}
       pr={["5px", "5px", "5px", "5px", "5px"]}
-      h="100vh"
+      minHeight="100vh"
       width="fit-content"
       {...props}
     >
-      <Box w="500px" height="100%">
+      <Box w={innerWidth} height="100%">
         {children}
       </Box>
     </Box>
@@ -88,14 +88,15 @@ export function useSection(
 
 export function withChildren<Props extends object>(
   Component: React.FC<Props>,
-  id: string
+  id: string,
+  sectionProps?: React.ComponentProps<typeof Section>
 ) {
   const TempComponent = ({
     children,
     ...props
   }: { children?: ReactNode } & Props) => {
     return (
-      <Section id={id}>
+      <Section id={id} {...sectionProps}>
         <VStack height="100%" alignItems={"left"}>
           <Component {...(props as any)} />
           <Spacer />
