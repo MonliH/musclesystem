@@ -346,3 +346,11 @@ const NAV_ITEMS: Array<NavItem> = [
 export const URL_TO_TITLE: { [key: string]: string } = Object.fromEntries(
   NAV_ITEMS.map(({ label, href }) => [(href?.split("/") ?? ["", ""])[1], label])
 );
+
+export const URL_TO_FIRST_CHILD_HREF: { [key: string]: string } =
+  Object.fromEntries(
+    NAV_ITEMS.map(({ children, href }) => [
+      (href?.split("/") ?? ["", ""])[1],
+      children?.[0]?.href ?? "",
+    ])
+  );
