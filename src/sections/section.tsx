@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import { Box, BoxProps, Spacer, VStack } from "@chakra-ui/react";
 import usePage from "stores/page";
 
@@ -36,7 +36,14 @@ export function useSection(
   nextTransitionUnboundedRef: React.MutableRefObject<number>;
 } {
   const height = typeof window == "undefined" ? 1000 : window.innerHeight;
-  const pageProgress = usePage((state) => state.pageProgress) + height * 0.4;
+  const [pagePixelProgress, setPageProgress] = usePage((state) => [
+    state.pageProgress,
+    state.setPageProgress,
+  ]);
+  const pageProgress = pagePixelProgress + height * 0.4;
+  useEffect(() => {
+    setPageProgress(window.scrollY);
+  }, []);
   const sectionHeight = height * sectionLen;
   const sectionPixelOffset = pageProgress - order * height;
   const visible = !(

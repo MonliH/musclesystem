@@ -6,7 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import lerp from "utils/lerp";
 import { Object3D } from "three";
 
-export default function Arm({ order }: { order: number }) {
+export default function Bone({ order }: { order: number }) {
   const { visible, visibleRef, nextTransitionAmt, nextTransitionAmtRef } =
     useSection(order);
   const { nodes } = useGLTF("/arm_full.glb") as any;
