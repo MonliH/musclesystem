@@ -9,6 +9,7 @@ import BursaeSection from "sections/bursae";
 import Joints from "models/Joints";
 import Page from "components/page";
 import { Physics } from "@react-three/cannon";
+import GoNext from "components/goNext";
 
 const BonePage: NextPage = () => {
   return (
@@ -25,7 +26,9 @@ const BonePage: NextPage = () => {
       <LigamentsSection />
       <BursaeSection order={2} />
       <TendonsSection />
-      <JointTypes />
+      <JointTypes>
+        <GoNext prevUrl="bone" nextUrl="muscle" />
+      </JointTypes>
     </Page>
   );
 };

@@ -2,7 +2,7 @@ import { Heading, Text } from "@chakra-ui/react";
 import Section from "sections/section";
 export default function Bone() {
   return (
-    <Section>
+    <Section id="overview">
       <Heading mb="4">Bone</Heading>
       <Text>
         A bone is a rigid organ that makes up your skeleton. Bones are primarily

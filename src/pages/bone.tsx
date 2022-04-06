@@ -5,6 +5,8 @@ import MarrowSection from "sections/marrow";
 import BoneMarrow from "models/BoneMarrow";
 import Page from "components/page";
 import { Physics } from "@react-three/cannon";
+import GoNext from "components/goNext";
+import Section from "sections/section";
 
 const BonePage: NextPage = () => {
   return (
@@ -17,7 +19,9 @@ const BonePage: NextPage = () => {
       }
     >
       <BoneSection />
-      <MarrowSection />
+      <MarrowSection>
+        <GoNext nextUrl="joints" />
+      </MarrowSection>
     </Page>
   );
 };

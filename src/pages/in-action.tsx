@@ -4,6 +4,8 @@ import { Physics } from "@react-three/cannon";
 import ArmC, { ArmHandle } from "models/Arm";
 import MuscleSection from "sections/muscle";
 import { useRef } from "react";
+import BalancingSection from "sections/balancing";
+import GoNext from "components/goNext";
 
 const InAction: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -29,6 +31,9 @@ const InAction: NextPage = () => {
       onMouseUp={() => armRef.current?.flex(null)}
     >
       <MuscleSection />
+      <BalancingSection>
+        <GoNext prevUrl="muscle" nextUrl="staying-healthy" />
+      </BalancingSection>
     </Page>
   );
 };

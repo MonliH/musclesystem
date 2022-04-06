@@ -1,9 +1,9 @@
-import { Heading, Text } from "@chakra-ui/react";
-import Section from "sections/section";
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { withChildren } from "sections/section";
 
-export default function MuscleMicroSection() {
+function MuscleMicroSection() {
   return (
-    <Section>
+    <Box>
       <Heading mb="5">Muscle Fibers</Heading>
       <Text>
         Muscles are soft tissues made up of bundles of fibers. There are many
@@ -26,6 +26,8 @@ export default function MuscleMicroSection() {
         use fast twitch muscle fibers, whereas when walking, you mostly use slow
         twitch fibers.
       </Text>
-    </Section>
+    </Box>
   );
 }
+
+export default withChildren(MuscleMicroSection, "muscle");

@@ -49,10 +49,16 @@ export default function Tendon({ order }: { order: number }) {
       color={materials.Muscle.color}
       transparent
       opacity={opacity}
+      depthWrite={!visible && !atPrev ? false : true}
     />
   );
   const tendonMat = (
-    <a.meshPhysicalMaterial color="#c7c7c7" transparent opacity={opacity} />
+    <a.meshPhysicalMaterial
+      color="#c7c7c7"
+      transparent
+      opacity={opacity}
+      depthWrite={!visible && !atPrev ? false : true}
+    />
   );
 
   useEffect(() => {

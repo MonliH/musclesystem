@@ -3,7 +3,7 @@ import Section from "sections/section";
 
 export default function Bone() {
   return (
-    <Section>
+    <Section id="cartilage">
       <Heading mb="4">Cartilage</Heading>
       <Text>
         Cartilage is a flexible connective tissue that keeps joints moving by

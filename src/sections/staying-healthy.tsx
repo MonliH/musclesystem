@@ -1,10 +1,10 @@
-import { Heading, Text } from "@chakra-ui/react";
-import Section from "sections/section";
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { withChildren } from "sections/section";
 
-export default function TendonsSection() {
+function StayingHealthySection() {
   return (
-    <Section id="tendons">
-      <Heading mb="5">Tendons</Heading>
+    <Box>
+      <Heading mb="5">Staying Healthy</Heading>
       <Text>
         Tendons are a tough flexible band of fibrous connective tissue that
         connects muscles to bones. Tendons are responsible for moving our limbs.
@@ -14,6 +14,8 @@ export default function TendonsSection() {
         which being the Achilles tendon, which connects your calf muscle to your
         heel bone.
       </Text>
-    </Section>
+    </Box>
   );
 }
+
+export default withChildren(StayingHealthySection, "staying-healthy");

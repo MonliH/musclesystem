@@ -3,7 +3,7 @@ import Section from "sections/section";
 
 export default function LigamentsSection() {
   return (
-    <Section>
+    <Section id="ligaments">
       <Heading mb="5">Ligaments</Heading>
       <Text>
         Ligaments are made of dense fibrous elastic tissue that connect bones to

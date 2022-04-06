@@ -1,5 +1,5 @@
-import { ReactNode, useRef } from "react";
-import { Box, BoxProps } from "@chakra-ui/react";
+import React, { ReactNode, useRef } from "react";
+import { Box, BoxProps, Spacer, VStack } from "@chakra-ui/react";
 import usePage from "stores/page";
 
 export default function Section({
@@ -15,7 +15,9 @@ export default function Section({
       width="fit-content"
       {...props}
     >
-      <Box w="500px">{children}</Box>
+      <Box w="500px" height="100%">
+        {children}
+      </Box>
     </Box>
   );
 }
@@ -65,4 +67,25 @@ export function useSection(
     nextTransitionUnbounded,
     nextTransitionUnboundedRef,
   };
+}
+
+export function withChildren<Props extends object>(
+  Component: React.FC<Props>,
+  id: string
+) {
+  const TempComponent = ({
+    children,
+    ...props
+  }: { children?: ReactNode } & Props) => {
+    return (
+      <Section id={id}>
+        <VStack height="100%" alignItems={"left"}>
+          <Component {...(props as any)} />
+          <Spacer />
+          {children}
+        </VStack>
+      </Section>
+    );
+  };
+  return TempComponent;
 }

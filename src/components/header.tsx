@@ -3,7 +3,6 @@ import {
   Flex,
   Text,
   IconButton,
-  Button,
   Stack,
   Collapse,
   Icon,
@@ -22,6 +21,7 @@ import {
 import { Menu, X, ChevronDown, ChevronRight } from "react-feather";
 import NextLink from "next/link";
 import { ReactNode } from "react";
+import { useRouter } from "next/router";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -103,6 +103,8 @@ const DesktopNav = () => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
+  const router = useRouter();
+  const currSection = router.pathname;
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -113,7 +115,7 @@ const DesktopNav = () => {
               <PopoverLink
                 p={2}
                 fontSize={"sm"}
-                fontWeight={500}
+                fontWeight={currSection == navItem.href ? "bold" : 500}
                 color={linkColor}
                 _hover={{
                   textDecoration: "none",
@@ -285,11 +287,11 @@ const NAV_ITEMS: Array<NavItem> = [
     children: [
       {
         label: "Overview",
-        href: "#",
+        href: "#overview",
       },
       {
         label: "Bone Marrow",
-        href: "#",
+        href: "#marrow",
       },
     ],
   },
@@ -299,23 +301,23 @@ const NAV_ITEMS: Array<NavItem> = [
     children: [
       {
         label: "Cartilage",
-        href: "#",
+        href: "#cartilage",
       },
       {
         label: "Ligaments",
-        href: "#",
+        href: "#ligaments",
       },
       {
         label: "Bursae",
-        href: "#",
+        href: "#bursae",
       },
       {
         label: "Tendons",
-        href: "#",
+        href: "#tendons",
       },
       {
         label: "Types of Joints",
-        href: "#",
+        href: "#joint-types",
       },
     ],
   },
@@ -327,16 +329,20 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "In Action",
     href: "/in-action",
     children: [
-      { label: "Flexing Muscles", href: "#" },
-      { label: "Balancing", href: "#" },
+      { label: "Flexing Muscles", href: "#flexing" },
+      { label: "Balancing", href: "#balancing" },
     ],
   },
   {
     label: "Staying Healthy",
     href: "/staying-healthy",
     children: [
-      { label: "FOP: A Rare Condition", href: "#" },
-      { label: "Staying Healthy", href: "#" },
+      { label: "FOP: A Rare Condition", href: "#condition" },
+      { label: "Staying Healthy", href: "#staying-healthy" },
     ],
   },
 ];
+
+export const URL_TO_TITLE: { [key: string]: string } = Object.fromEntries(
+  NAV_ITEMS.map(({ label, href }) => [(href?.split("/") ?? ["", ""])[1], label])
+);

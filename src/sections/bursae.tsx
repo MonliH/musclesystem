@@ -9,7 +9,7 @@ export default function BursaeSection({ order }: { order: number }) {
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
 
   return (
-    <Section>
+    <Section id="bursae">
       <Heading mb="4">Bursae</Heading>
       <Text>
         A bursa is an enclosed, fluid filled sac that works as a cushion and a

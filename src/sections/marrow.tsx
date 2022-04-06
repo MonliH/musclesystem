@@ -1,8 +1,9 @@
-import { Heading, Text } from "@chakra-ui/react";
-import Section from "sections/section";
-export default function Marrow() {
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { withChildren } from "sections/section";
+
+function Marrow() {
   return (
-    <Section>
+    <Box>
       <Heading mb="4">Bone Marrow</Heading>
       <Text>
         Bone marrow is the spongey tissue inside your bones. One type of bone
@@ -14,6 +15,7 @@ export default function Marrow() {
         leukemia. Leukemian is a form of cancer that affects the body{"'"}s
         blood forming tissue.
       </Text>
-    </Section>
+    </Box>
   );
 }
+export default withChildren(Marrow, "marrow");

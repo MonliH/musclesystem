@@ -9,7 +9,7 @@ export default function FopSection({ order }: { order: number }) {
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
 
   return (
-    <Section>
+    <Section id="condition">
       <Heading mb="4">A Condition</Heading>
       <Heading size="md">Münchmeyer disease</Heading>
       <Text>
@@ -17,11 +17,11 @@ export default function FopSection({ order }: { order: number }) {
         is an extremely rare connective tissue disease resulting from a mutation
         of the ACVR1 gene. The ACVR1 is a protein critical for the development
         and repair of the skeletal system. The mutation of the ACVR1 gene
-        affects the body's natural repair mechanism, causing fibrous tissue,
+        affects the body{"'"}s natural repair mechanism, causing fibrous tissue,
         such as muscle, tendons, and ligaments to become ossified, meaning new
         bone formation around them. This can eventually cause a second skeleton
-        to form around the original, which progressively restricts the patient's
-        ability to move and function.
+        to form around the original, which progressively restricts the patient
+        {"'"}s ability to move and function.
       </Text>
       <Text mt="3">
         Though some treatments, such as using high doses of corticosteroids, can

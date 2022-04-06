@@ -13,7 +13,7 @@ import Section from "sections/section";
 export default function MuscleSection() {
   const state = useMuscle((state) => state);
   return (
-    <Section>
+    <Section id="flexing">
       <Heading mb="5">How Flexing Works</Heading>
       <Text>
         Each bone is connected to one another by a joint. Each joint is composed
