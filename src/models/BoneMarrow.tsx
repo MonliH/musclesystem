@@ -59,22 +59,13 @@ export default function BoneMarrow({ order }: { order: number }) {
       renderOrder={order}
       dispose={null}
       // @ts-ignore
-      rotation={props.x.to(
-        (v) =>
-          lerp(
-            [
-              -Math.PI * 0.5,
-              0,
-              (v / window.innerWidth - 0.6) * 0.4 + Math.PI * 0.5,
-            ],
-            [0, 0, 0],
-            nextTransitionAmtRef.current < 0.5
-              ? 0
-              : (nextTransitionAmtRef.current - 0.5) * 2
-          ) as [number, number, number]
-      )}
-      position={[0, lerp(2, 0, transitionCutoff) as number, 0]}
-      scale={lerp([1.5, 1.5, 1.5], [0.999, 0.999, 0.999], transitionCutoff)}
+      rotation={props.x.to((v) => [
+        -Math.PI * 0.5,
+        0,
+        (v / window.innerWidth - 0.6) * 0.4 + Math.PI * 0.5,
+      ])}
+      position={[0, 2, 0]}
+      scale={[1.5, 1.5, 1.5]}
     >
       <Marker
         position={[0.9, 0, 0]}

@@ -6,7 +6,6 @@ import BoneMarrow from "models/BoneMarrow";
 import Page from "components/page";
 import { Physics } from "@react-three/cannon";
 import GoNext from "components/goNext";
-import Section from "sections/section";
 
 const BonePage: NextPage = () => {
   return (

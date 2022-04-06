@@ -341,6 +341,7 @@ const NAV_ITEMS: Array<NavItem> = [
       { label: "Staying Healthy", href: "#staying-healthy" },
     ],
   },
+  { label: "Credits", href: "/credits" },
 ];
 
 export const URL_TO_TITLE: { [key: string]: string } = Object.fromEntries(

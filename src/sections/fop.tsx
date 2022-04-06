@@ -1,8 +1,6 @@
 import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import { a, useSpring } from "@react-spring/three";
+import { a, useSpring } from "react-spring";
 import Section, { useSection } from "sections/section";
-
-const AImage = a(Image);
 
 export default function FopSection({ order }: { order: number }) {
   const { visible } = useSection(order);
@@ -38,11 +36,9 @@ export default function FopSection({ order }: { order: number }) {
       </Text>
       <Box position="fixed" right={"20vw"} top={"25vh"} pointerEvents="none">
         {/* @ts-ignore */}
-        <AImage
-          opacity={opacity}
-          src="/fop.jpg"
-          alt="Image of person with FOP"
-        />
+        <a.div style={{ opacity }}>
+          <Image src="/fop.jpg" alt="Image of person with FOP" />
+        </a.div>
       </Box>
     </Section>
   );

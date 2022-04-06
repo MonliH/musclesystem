@@ -1,8 +1,6 @@
 import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import { a, useSpring } from "@react-spring/three";
+import { a, useSpring } from "react-spring";
 import Section, { useSection } from "sections/section";
-
-const AImage = a(Image);
 
 export default function BursaeSection({ order }: { order: number }) {
   const { visible } = useSection(order);
@@ -17,8 +15,9 @@ export default function BursaeSection({ order }: { order: number }) {
         made of fibrous tissue, but doesn{"'"}t make up part of the joint.
       </Text>
       <Box position="fixed" right={"15vw"} top={"25vh"} pointerEvents="none">
-        {/* @ts-ignore */}
-        <AImage opacity={opacity} src="/bursae.webp" alt="Figure of bursa" />
+        <a.div style={{ opacity }}>
+          <Image src="/bursae.webp" alt="Figure of bursa" />
+        </a.div>
       </Box>
     </Section>
   );
