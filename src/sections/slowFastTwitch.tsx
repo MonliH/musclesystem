@@ -28,4 +28,6 @@ function SlowFastTwitch() {
 
 export default withChildren(SlowFastTwitch, "slow-fast-twitch", {
   p: "0",
+  pt: "100px",
+  mt: "-100px",
 });

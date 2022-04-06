@@ -32,7 +32,7 @@ export default function MuscleMicroSection() {
           different muscles in your body!
         </Text>
       </Section>
-      <Section id="types" innerWidth="100%" p="0">
+      <Section id="types" innerWidth="100%" p="0" pt="100px" mt="-100px">
         <Box display="flex" flexDirection="row" id="types" width="100%">
           <Box mr="50px" w="350px">
             <Heading size="lg">Smooth Muscle</Heading>

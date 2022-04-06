@@ -324,6 +324,11 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Muscle",
     href: "/muscle",
+    children: [
+      { label: "Overview", href: "#overview" },
+      { label: "Types of Fibers", href: "#types" },
+      { label: "Slow and Fast Twitch Fibers", href: "#slow-fast-twitch" },
+    ],
   },
   {
     label: "In Action",
