@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { Link as CLink, Box, Button, Heading, Text } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "react-feather";
@@ -16,7 +16,18 @@ const Credits: NextPage = () => {
         Writing by <b>Henry Barber</b>
         <br />
       </Text>
-      <Heading mt="5">References</Heading>
+      <Text fontSize="lg" my="2" width="500px">
+        Website implemented in <b>Typescript</b>, <b>React</b>, and{" "}
+        <b>Next.js</b>. Code is fully open source at{" "}
+        <CLink
+          color="blue.400"
+          href="https://github.com/MonliH/musclesystem/"
+          target="_blank"
+        >
+          github.com/MonliH/musclesystem
+        </CLink>
+      </Text>
+      <Heading mt="10">References</Heading>
       <Text>abc</Text>
       <Box mt="10">
         <Link passHref href="/">
