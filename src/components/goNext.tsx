@@ -15,7 +15,7 @@ export default function GoNext({
   const prevData = prevUrl && URL_TO_TITLE[prevUrl];
 
   return (
-    <HStack mt="30px">
+    <HStack pt="30px">
       {prevData && prevUrl && (
         <ButtonGroup>
           <Link href={`/${prevUrl}`} passHref>

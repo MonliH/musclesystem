@@ -96,7 +96,7 @@ export function withChildren<Props extends object>(
     ...props
   }: { children?: ReactNode } & Props) => {
     return (
-      <Section id={id} {...sectionProps}>
+      <Section id={id} {...sectionProps} position="relative">
         <VStack height="100%" alignItems={"left"}>
           <Component {...(props as any)} />
           <Spacer />

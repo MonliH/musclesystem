@@ -1,51 +1,19 @@
 import { a, useSpring } from "@react-spring/three";
 import {
-  ConeTwistConstraintOpts,
-  Debug,
-  PlaneProps,
-  Triplet,
   useHingeConstraint,
-} from "@react-three/cannon";
-import {
-  Physics,
   useBox,
-  useCompoundBody,
-  useConeTwistConstraint,
-  useCylinder,
-  usePlane,
   usePointToPointConstraint,
   useSphere,
+  useCylinder,
 } from "@react-three/cannon";
-import { Box, Html, OrbitControls } from "@react-three/drei";
-import type {
-  BoxBufferGeometryProps,
-  MeshProps,
-  MeshStandardMaterialProps,
-  ThreeEvent,
-} from "@react-three/fiber";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { setgroups } from "process";
-import { FC, ReactNode, RefObject, useState } from "react";
-import {
-  createContext,
-  createRef,
-  forwardRef,
-  Suspense,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { Html, Line, Sphere } from "@react-three/drei";
+import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { ReactNode, RefObject, useRef, useState } from "react";
+import { createRef, useCallback, useEffect } from "react";
 import { useSection } from "sections/section";
-import {
-  Material,
-  Mesh,
-  MeshBasicMaterial,
-  Object3D,
-  Plane,
-  Vector3,
-} from "three";
+import useJointType, { JointType } from "stores/jointType";
+import { Object3D, Vector3 } from "three";
+import { Line2, RectAreaLightUniformsLib } from "three-stdlib";
 
 const cursor = createRef<Object3D>();
 
@@ -63,6 +31,7 @@ function useDragConstraint(child: RefObject<Object3D>) {
   return { onPointerDown, onPointerUp };
 }
 
+const arrowOffset = new Vector3(0, 0, 0);
 function Joint({
   render,
   useConstraint,
@@ -74,6 +43,9 @@ function Joint({
   onPointerDown,
   onPointerUp,
   children,
+  onDisplay,
+  additionalGeometry,
+  showLine = false,
 }: {
   useConstraint: (
     ref1: RefObject<Object3D>,
@@ -89,16 +61,24 @@ function Joint({
   onPointerDown: (e: ThreeEvent<PointerEvent>) => void;
   onPointerUp: (e: ThreeEvent<PointerEvent>) => void;
   children: ReactNode;
+  onDisplay: boolean;
+  additionalGeometry?: ReactNode;
+  showLine?: boolean;
 }) {
   const spacing = 0.2;
-  const radius = 0.25;
-  const [ref1] = useBox(() => ({
-    args: [radius, 1, radius],
+  const radius = 0.25 / 2;
+  const initialPosition: [number, number, number] = [
+    position[0],
+    -1 - spacing + position[1],
+    1 + position[2],
+  ];
+  const [ref1, api1] = useCylinder(() => ({
+    args: [radius, radius, 1],
     position,
   }));
-  const [ref2] = useBox(() => ({
-    args: [0.25, 1, 0.25],
-    position: [position[0], -1 - spacing + position[1], 1 + position[2]],
+  const [ref2, api2] = useCylinder(() => ({
+    args: [radius, radius, 1],
+    position: initialPosition,
     mass: 1,
   }));
   useConstraint(ref1, ref2, spacing);
@@ -112,17 +92,60 @@ function Joint({
     if (onPointerUp) onPointerUp(e);
   };
 
+  useEffect(() => {
+    if (onDisplay) {
+      api1.position.set(...position);
+      api2.position.set(...initialPosition);
+    } else {
+      api1.position.set(10, 10, 10);
+      api2.position.set(10, 10, 10);
+    }
+  }, [onDisplay]);
+
+  const arrow = useRef<Line2>(undefined as any);
+  useEffect(() => {
+    if (!showLine) return;
+    api2.rotation.subscribe((rot) => {
+      if (!arrow.current || !showLine) return;
+      arrow.current.rotation.set(...rot);
+      arrow.current.updateMatrixWorld();
+    });
+  }, []);
+  useFrame(() => {
+    if (!ref2.current || !arrow.current || !showLine) return;
+    const pos = ref2.current.localToWorld(arrowOffset.clone());
+    arrow.current.position.set(pos.x, pos.y, pos.z);
+    arrow.current.updateMatrixWorld();
+  });
+
   return (
     <>
-      <Html position={[position[0], position[1] + 0.9, position[2] - 0.7]}>
-        {children}
-      </Html>
+      {onDisplay && (
+        <>
+          <Html position={[position[0], position[1] + 0.9, position[2] - 0.7]}>
+            {children}
+          </Html>
+
+          {additionalGeometry}
+          {showLine && (
+            <Line
+              alphaWrite={true}
+              ref={arrow}
+              points={[
+                [0, 0, 0],
+                [0.5, 0, 0],
+              ]}
+              color={"black"}
+            />
+          )}
+        </>
+      )}
       <mesh ref={ref1}>
-        <boxGeometry args={[radius, 1, radius]} />
+        <cylinderGeometry args={[radius, radius, 1]} />
         {render}
       </mesh>
       <mesh ref={ref2} onPointerDown={onDown} onPointerUp={onUp}>
-        <boxGeometry args={[radius, 1, radius]} />
+        <cylinderGeometry args={[radius, radius, 1]} />
         {render}
       </mesh>
       <mesh
@@ -141,16 +164,6 @@ function Joint({
         />
       </mesh>
     </>
-  );
-}
-function DummyObj() {
-  const [ref] = useBox(() => ({ position: [2, 2, 2], args: [1, 1, 1] }));
-  useDragConstraint(ref);
-  return (
-    <mesh ref={ref}>
-      <boxGeometry />
-      <meshBasicMaterial />
-    </mesh>
   );
 }
 
@@ -179,9 +192,9 @@ export default function Joints({ order }: { order: number }) {
     [0, Math.PI, 0],
   ];
   const positions: [number, number, number][] = [
-    [0, -1, -2],
-    [0, -2, -0.5],
-    [0, -1, 1],
+    [0, -1, -1.25],
+    [0, -2, -1.25],
+    [0, -1, -1.25],
   ];
 
   const setPos = (x: number, y: number, z: number) => {
@@ -198,6 +211,8 @@ export default function Joints({ order }: { order: number }) {
     userSelect: "none",
   };
 
+  const jointType = useJointType((state) => state.type);
+
   return (
     <>
       <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
@@ -208,7 +223,7 @@ export default function Joints({ order }: { order: number }) {
         <Joint
           // @ts-ignore
           render={<a.meshStandardMaterial {...props} />}
-          position={[0, 0, -2]}
+          position={[0, 0, -1.25]}
           planePos={positions[0]}
           planeRot={rotations[0]}
           onPointerDown={sc(0)}
@@ -223,18 +238,44 @@ export default function Joints({ order }: { order: number }) {
               collideConnected: true,
             });
           }}
+          onDisplay={jointType === JointType.BallAndSocket}
+          additionalGeometry={
+            <>
+              <mesh
+                position={[
+                  positions[0][0],
+                  positions[0][1] + 0.4,
+                  positions[0][2],
+                ]}
+              >
+                <sphereGeometry
+                  args={[
+                    0.28,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    Math.PI / 2,
+                  ]}
+                />
+                <meshPhysicalMaterial />
+              </mesh>
+            </>
+          }
         >
           <p style={textStyle}>Ball and Socket Joint</p>
         </Joint>
         <Joint
           render={<a.meshStandardMaterial {...props} />}
-          position={[0, 0, -0.5]}
+          position={[0, 0, -1.25]}
           onPointerDown={sc(1)}
           setPos={setPos}
           onPointerUp={pointerUp}
           active={current === 1}
           planePos={positions[1]}
           planeRot={rotations[1]}
+          onDisplay={jointType === JointType.Pivot}
           useConstraint={(ref1, ref2, spacing) => {
             // eslint-disable-next-line
             useHingeConstraint(ref1, ref2, {
@@ -245,6 +286,21 @@ export default function Joints({ order }: { order: number }) {
               collideConnected: true,
             });
           }}
+          showLine
+          additionalGeometry={
+            <>
+              <mesh
+                position={[
+                  positions[0][0],
+                  positions[0][1] + 0.4,
+                  positions[0][2],
+                ]}
+              >
+                <cylinderGeometry args={[0.19, 0.19, 0.5]} />
+                <meshPhysicalMaterial />
+              </mesh>
+            </>
+          }
         >
           <p style={textStyle}>Pivot Joint</p>
         </Joint>
@@ -252,11 +308,12 @@ export default function Joints({ order }: { order: number }) {
           render={<a.meshStandardMaterial {...props} />}
           onPointerDown={sc(2)}
           setPos={setPos}
-          position={[0, 0, 1]}
+          position={[0, 0, -1.25]}
           onPointerUp={pointerUp}
           active={current === 2}
           planePos={positions[2]}
           planeRot={rotations[2]}
+          onDisplay={jointType === JointType.Hinge}
           useConstraint={(ref1, ref2, spacing) => {
             // eslint-disable-next-line
             useHingeConstraint(ref1, ref2, {
@@ -267,6 +324,21 @@ export default function Joints({ order }: { order: number }) {
               collideConnected: true,
             });
           }}
+          additionalGeometry={
+            <>
+              <mesh
+                position={[
+                  positions[0][0],
+                  positions[0][1] + 0.4,
+                  positions[0][2],
+                ]}
+                rotation={[Math.PI / 2, 0, 0]}
+              >
+                <cylinderGeometry args={[0.19, 0.19, 0.5]} />
+                <meshPhysicalMaterial />
+              </mesh>
+            </>
+          }
         >
           <p style={textStyle}>Hinge Joint</p>
         </Joint>
