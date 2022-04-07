@@ -4,19 +4,25 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Image,
   Heading,
   Text,
+  Box,
 } from "@chakra-ui/react";
+import { a, useSpring } from "react-spring";
 import Section from "sections/section";
-import useJointPart from "stores/jointPart";
+import useJointPart, { JointPart } from "stores/jointPart";
 
-export default function Bone() {
+export default function JoinOverview() {
   const [expanded, setExpanded] = useJointPart((state) => [
     state.part,
     state.setPart,
   ]);
+  const bursaeProps = useSpring({
+    opacity: expanded == JointPart.Bursae ? 1 : 0,
+  });
   return (
-    <Section id="cartilage">
+    <Section id="overview">
       <Heading mb="10">Parts of a Joint</Heading>
       <Accordion allowToggle index={expanded} onChange={setExpanded}>
         <AccordionItem>
@@ -88,6 +94,11 @@ export default function Bone() {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
+      <Box position="fixed" right={"15vw"} top={"25vh"} pointerEvents="none">
+        <a.div style={bursaeProps}>
+          <Image src="/bursae.webp" alt="Figure of bursa" />
+        </a.div>
+      </Box>
     </Section>
   );
 }

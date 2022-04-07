@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import CartilageSection from "sections/cartilage";
-import Cartilage from "models/Cartilage";
+import CartilageSection from "sections/jointOverview";
+import Cartilage from "models/Overview";
 import JointTypes from "sections/typesOfJoints";
 import Joints from "models/Joints";
 import Page from "components/page";

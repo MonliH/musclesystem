@@ -300,20 +300,8 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "/joints",
     children: [
       {
-        label: "Cartilage",
-        href: "#cartilage",
-      },
-      {
-        label: "Ligaments",
-        href: "#ligaments",
-      },
-      {
-        label: "Bursae",
-        href: "#bursae",
-      },
-      {
-        label: "Tendons",
-        href: "#tendons",
+        label: "Overview",
+        href: "#overview",
       },
       {
         label: "Types of Joints",
