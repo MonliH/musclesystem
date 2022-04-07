@@ -18,10 +18,11 @@ const JOINT_TO_TITLE: [JointType, string][] = [
   [JointType.Plane, "Plane"],
   [JointType.Saddle, "Saddle"],
   [JointType.Immovable, "Immovable"],
-] as const;
+];
 
-const OBJ_JOINT_TO_IMG: { [key in JointType]: string } =
-  Object.fromEntries(JOINT_TO_TITLE);
+const OBJ_JOINT_TO_IMG: Record<JointType, string> = Object.fromEntries(
+  JOINT_TO_TITLE
+) as any;
 
 const OBJS_WITH_3D = [
   JointType.BallAndSocket,

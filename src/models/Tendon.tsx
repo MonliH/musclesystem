@@ -105,23 +105,6 @@ export default function Tendon({ order }: { order: number }) {
           ) as [number, number, number]
       )}
     >
-      <AMarker
-        position={[0, 0.9, 0]}
-        // @ts-ignore
-        rotation={props.y.to(
-          (v) =>
-            [
-              -Math.PI / 2,
-              (v / window.innerHeight) * 1.5 - Math.PI / 2 - 0.3,
-              -Math.PI / 2,
-            ] as [number, number, number]
-        )}
-        invisible={!visible}
-      >
-        <div style={labelProps}>
-          <p style={{ fontSize: "90px" }}>Tendon</p>
-        </div>
-      </AMarker>
       <ALine
         alphaWrite
         points={[
@@ -143,6 +126,23 @@ export default function Tendon({ order }: { order: number }) {
         ]}
         lineWidth={0.5}
       />
+      <AMarker
+        position={[0, 0.9, 0]}
+        // @ts-ignore
+        rotation={props.y.to(
+          (v) =>
+            [
+              -Math.PI / 2,
+              (v / window.innerHeight) * 1.5 - Math.PI / 2 - 0.3,
+              -Math.PI / 2,
+            ] as [number, number, number]
+        )}
+        invisible={!visible}
+      >
+        <div style={labelProps}>
+          <p style={{ fontSize: "90px" }}>Tendon</p>
+        </div>
+      </AMarker>
       <mesh geometry={nodes.Humerus002.geometry}>
         <a.meshPhysicalMaterial
           color={materials.Bone.color}

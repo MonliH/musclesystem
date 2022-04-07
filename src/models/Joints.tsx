@@ -1,19 +1,18 @@
 import { a, useSpring } from "@react-spring/three";
 import {
   useHingeConstraint,
-  useBox,
   usePointToPointConstraint,
   useSphere,
   useCylinder,
 } from "@react-three/cannon";
-import { Html, Line, Sphere } from "@react-three/drei";
+import { Html, Line } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { ReactNode, RefObject, useRef, useState } from "react";
 import { createRef, useCallback, useEffect } from "react";
 import { useSection } from "sections/section";
 import useJointType, { JointType } from "stores/jointType";
 import { Object3D, Vector3 } from "three";
-import { Line2, RectAreaLightUniformsLib } from "three-stdlib";
+import { Line2 } from "three-stdlib";
 
 const cursor = createRef<Object3D>();
 
@@ -31,7 +30,7 @@ function useDragConstraint(child: RefObject<Object3D>) {
   return { onPointerDown, onPointerUp };
 }
 
-const arrowOffset = new Vector3(0, 0, 0);
+const arrowOffset = new Vector3(0, -0.45, 0);
 function Joint({
   render,
   useConstraint,
@@ -136,7 +135,7 @@ function Joint({
                 [0.5, 0, 0],
               ]}
               color={"black"}
-            />
+            ></Line>
           )}
         </>
       )}
@@ -259,7 +258,7 @@ export default function Joints({ order }: { order: number }) {
                     Math.PI / 2,
                   ]}
                 />
-                <meshPhysicalMaterial />
+                <a.meshPhysicalMaterial {...props} />
               </mesh>
             </>
           }
@@ -297,7 +296,7 @@ export default function Joints({ order }: { order: number }) {
                 ]}
               >
                 <cylinderGeometry args={[0.19, 0.19, 0.5]} />
-                <meshPhysicalMaterial />
+                <a.meshPhysicalMaterial {...props} />
               </mesh>
             </>
           }
@@ -335,7 +334,7 @@ export default function Joints({ order }: { order: number }) {
                 rotation={[Math.PI / 2, 0, 0]}
               >
                 <cylinderGeometry args={[0.19, 0.19, 0.5]} />
-                <meshPhysicalMaterial />
+                <a.meshPhysicalMaterial {...props} />
               </mesh>
             </>
           }
