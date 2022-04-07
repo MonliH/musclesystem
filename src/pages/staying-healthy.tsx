@@ -9,7 +9,7 @@ const StayingHealthy: NextPage = () => {
   return (
     <Page models={null}>
       <FopSection order={0} />
-      <StayingHealthySection>
+      <StayingHealthySection order={1}>
         <GoNext prevUrl="in-action" />
       </StayingHealthySection>
     </Page>

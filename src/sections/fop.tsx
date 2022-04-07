@@ -37,7 +37,11 @@ export default function FopSection({ order }: { order: number }) {
       <Box position="fixed" right={"20vw"} top={"25vh"} pointerEvents="none">
         {/* @ts-ignore */}
         <a.div style={{ opacity }}>
-          <Image src="/fop.jpg" alt="Image of person with FOP" />
+          <Image
+            src="/fop.jpg"
+            alt="Image of person with FOP"
+            borderRadius="lg"
+          />
         </a.div>
       </Box>
     </Section>
