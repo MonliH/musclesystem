@@ -44,9 +44,7 @@ export function useSection(
   ]);
   const pageProgress = pagePixelProgress + height * 0.4;
   useEffect(() => {
-    console.log("hi");
     const hash = window.location.hash;
-    console.log("hi", hash);
     if (typeof hash !== "string") return;
     const element = document.getElementById(
       hash.length
