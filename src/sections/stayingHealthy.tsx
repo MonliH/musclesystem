@@ -158,6 +158,24 @@ export default function StayingHealthySection({ order }: { order: number }) {
               </Text>
             </AccordionPanel>
           </AccordionItem>
+          <AccordionItem>
+            <AccordionButton>
+              <Heading size="md" flex="1" textAlign="left">
+                Getting Adequate Sleep
+              </Heading>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel>
+              <Text>
+                Most muscle repair and growth occurs during sleep. Therefore,
+                getting enough sleep is essential to keeping your muscles
+                healthy and to preventing injury. Furthermore, lack of sleep can
+                prevent bones from developing correctly. On average, adults
+                should get 7.5 to 9 hours of sleep, whereas adolescents should
+                get 8.5 to 10 hours each day.
+              </Text>
+            </AccordionPanel>
+          </AccordionItem>
         </Accordion>
         <a.div style={props}>
           {transitions(({ opacity }, ty) => {
@@ -178,6 +196,10 @@ export default function StayingHealthySection({ order }: { order: number }) {
                 imgPath = "/stretch.webp";
                 width = "17vw";
                 top = "18vh";
+                break;
+              case 3:
+                imgPath = "/sleeping.webp";
+                top = "30vh";
                 break;
             }
             return (
