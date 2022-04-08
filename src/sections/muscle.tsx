@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   Heading,
   Slider,
   SliderFilledTrack,
@@ -70,6 +71,13 @@ export default function MuscleSection() {
           </SliderTrack>
           <SliderThumb />
         </Slider>
+        <Checkbox
+          mt="2"
+          isChecked={state.reversedGravity}
+          onChange={(e) => state.setReversedGravity(e.target.checked)}
+        >
+          Reverse Gravity
+        </Checkbox>
       </Box>
     </Section>
   );

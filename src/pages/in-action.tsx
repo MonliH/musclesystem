@@ -6,13 +6,15 @@ import MuscleSection from "sections/muscle";
 import { useRef } from "react";
 import BalancingSection from "sections/balancing";
 import GoNext from "components/goNext";
+import useMuscle from "stores/muscle";
 
 const InAction: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
+  const checked = useMuscle((state) => state.reversedGravity);
   return (
     <Page
       models={
-        <Physics>
+        <Physics gravity={[0, checked ? 10 : -10, 0]}>
           <ArmC order={0} ref={armRef} />
         </Physics>
       }
