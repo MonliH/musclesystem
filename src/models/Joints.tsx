@@ -9,6 +9,7 @@ import { Html, Line } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { ReactNode, RefObject, useRef, useState } from "react";
 import { createRef, useCallback, useEffect } from "react";
+import { MousePointer } from "react-feather";
 import { useSection } from "sections/section";
 import useJointType, { JointType } from "stores/jointType";
 import { Object3D, Vector3 } from "three";
@@ -170,7 +171,8 @@ function Joint({
 }
 
 export default function Joints({ order }: { order: number }) {
-  const { visible, atPrev } = useSection(order);
+  const { visible } = useSection(order);
+  const [moved, setMoved] = useState(false);
   const { opacity } = useSpring({
     opacity: visible ? 1 : 0,
   });
@@ -180,6 +182,7 @@ export default function Joints({ order }: { order: number }) {
     cursor
   );
   const sc = (i: number) => (e: ThreeEvent<PointerEvent>) => {
+    setMoved(true);
     if (current === -1) {
       setCurrent(i);
       return false;
@@ -218,6 +221,31 @@ export default function Joints({ order }: { order: number }) {
   return (
     <>
       <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
+        <Html position={[0, 1.7, -2.3]}>
+          <div
+            style={{
+              pointerEvents: "none",
+              padding: "10px",
+              border: "1px solid #CBD5E0",
+              borderRadius: "5px",
+              width: "320px",
+              color: "#718096",
+              display: "flex",
+              flexDirection: "row",
+              opacity: visible && !moved ? "1" : "0",
+              transition: "opacity 0.2s",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ flexShrink: "0", marginRight: "8px" }}>
+              <MousePointer size={30} />
+            </div>
+            <div>
+              This demo is interactive. Drag the{" "}
+              <b>cylinder at the bottom to move it</b>.
+            </div>
+          </div>
+        </Html>
         <mesh ref={ref}>
           <sphereBufferGeometry args={[0.1, 32, 32]} />
           <meshBasicMaterial visible={false} />

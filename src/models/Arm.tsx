@@ -4,14 +4,16 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
-import { useGLTF } from "@react-three/drei";
+import { Html, useGLTF } from "@react-three/drei";
 import { useBox, useHingeConstraint } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
 import { Matrix4, Object3D, Vector3 } from "three";
 import useMuscle from "stores/muscle";
 import { useSpring, a, config } from "@react-spring/three";
 import { useSection } from "sections/section";
+import { MousePointer } from "react-feather";
 
 export type ArmHandle = {
   flex: (pressed: "bi" | "tri" | null) => void;
@@ -20,6 +22,7 @@ export type ArmHandle = {
 const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   const { visible, atPrev } = useSection(order);
   const flexing = useRef({ bicep: false, tricep: false });
+  const [moved, setMoved] = useState(false);
   const { nodes, materials } = useGLTF("/arm_full.glb") as any;
   const [bicepStrength, tricepStrength, mass] = useMuscle((state) => [
     state.bicepStrength,
@@ -98,6 +101,7 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   useImperativeHandle(ref, () => ({
     flex: (pressed: "bi" | "tri" | null) => {
       armApi.wakeUp();
+      setMoved(true);
       switch (pressed) {
         case null:
           flexing.current = { bicep: false, tricep: false };
@@ -221,6 +225,31 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
   );
   return (
     <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
+      <Html position={[0, -1, -1]}>
+        <div
+          style={{
+            pointerEvents: "none",
+            padding: "10px",
+            border: "1px solid #CBD5E0",
+            borderRadius: "5px",
+            width: "270px",
+            color: "#718096",
+            display: "flex",
+            flexDirection: "row",
+            opacity: visible && !moved ? "1" : "0",
+            transition: "opacity 0.2s",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ flexShrink: "0", marginRight: "8px" }}>
+            <MousePointer size={30} />
+          </div>
+          <div>
+            <b>Left click </b>to flex the <b>bicep</b>. <br></br>
+            <b>Right click</b> to flex the <b>tricep</b>.
+          </div>
+        </div>
+      </Html>
       <group>
         <mesh geometry={nodes.Humerus002.geometry}>{boneMat}</mesh>
         <mesh geometry={nodes.Humerus002_1.geometry}>{boneMat}</mesh>
@@ -241,10 +270,6 @@ const Arm = ({ order }: { order: number }, ref: ForwardedRef<ArmHandle>) => {
         {/* @ts-ignore: https://github.com/pmndrs/react-spring/issues/1515 */}
         <a.meshPhysicalMaterial {...props} color="cyan" />
       </mesh>
-      {/* <mesh ref={tricep}>
-        <cylinderGeometry args={[0.01, 0.01, 1, 10]} />
-        <a.meshPhysicalMaterial {...props} color="red" />
-      </mesh> */}
 
       <group ref={bicep}>
         <mesh geometry={nodes.Long_head_of_biceps_brachii001.geometry}>
