@@ -4,10 +4,14 @@ import { Box, ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import WithSubnavigation from "components/header";
 import theme from "styles/theme";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
+      <Head>
+        <title>Musculoskeletal System</title>
+      </Head>
       <Box position="fixed" width="100%" zIndex={1000}>
         <WithSubnavigation />
       </Box>
