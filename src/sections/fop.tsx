@@ -8,8 +8,10 @@ export default function FopSection({ order }: { order: number }) {
 
   return (
     <Section id="condition">
-      <Heading mb="4">A Condition</Heading>
-      <Heading size="md">Münchmeyer disease</Heading>
+      <Heading mb="1">A Rare condition</Heading>
+      <Heading size="md" mb="3">
+        Münchmeyer disease
+      </Heading>
       <Text>
         Fibrodysplasia ossificans progressiva, also known as Münchmeyer disease
         is an extremely rare connective tissue disease resulting from a mutation
@@ -34,12 +36,12 @@ export default function FopSection({ order }: { order: number }) {
         of 2017 there were approximately 800 cases of FOP confirmed worldwide,
         with an estimated incidence of 0.5 per million people.
       </Text>
-      <Box position="fixed" right={"20vw"} top={"25vh"} pointerEvents="none">
+      <Box position="fixed" right={"7vw"} top={"18vh"} pointerEvents="none">
         {/* @ts-ignore */}
         <a.div style={{ opacity }}>
           <Image
-            src="/fop.jpg"
-            alt="Image of person with FOP"
+            src="/fop.webp"
+            alt="Difference between healthy bone and bone from person with FOP"
             borderRadius="lg"
           />
         </a.div>
