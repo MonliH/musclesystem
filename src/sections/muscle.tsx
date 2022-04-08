@@ -22,9 +22,9 @@ export default function MuscleSection() {
         contract to allow movement of the body.
       </Text>
       <Text mt="3">
-        Because skeletal muscles can only pull, they usually normally work in
-        pairs to move a bone back and forth. An example of this pairing (the
-        bicep brachialis and tricep brachii) is shown in the example.
+        Because skeletal muscles can only pull, they usually work in pairs to
+        move a bone back and forth. An example of this pairing (the bicep
+        brachialis and tricep brachii) is shown in the model.
       </Text>
       <Box mt="8">
         <Text fontWeight={"bold"}>Bicep Strength</Text>

@@ -1,19 +1,31 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
-import { withChildren } from "sections/section";
+import { Box, Heading, Text, Image } from "@chakra-ui/react";
+import { useSection, withChildren } from "sections/section";
+import { a, useSpring } from "react-spring";
 
-function BalancingSection() {
+function BalancingSection({ order }: { order: number }) {
+  const { visible } = useSection(order);
+  const balanceProps = useSpring({
+    opacity: visible ? 1 : 0,
+  });
   return (
     <Box>
       <Heading mb="5">How the Body Balances</Heading>
       <Text>
-        Tendons are a tough flexible band of fibrous connective tissue that
-        connects muscles to bones. Tendons are responsible for moving our limbs.
-        Tendons are highly resistant to tear, but aren{"'"}t stretchy. This
-        means they can be easily injured when strained, and will take a long
-        time to heal. Tendons can be found throughout your body! The largest of
-        which being the Achilles tendon, which connects your calf muscle to your
-        heel bone.
+        Ever wonder how your precariously upright body manages to stay that way?
+        Balance! Balance, or the perception of balance, results from several
+        sensory systems working together. Signals about the body{"'"}s position
+        to its surroundings are composed by the eyes and inner ear and sent to
+        the cerebellum (the part of the brain responsible for balance). These
+        signals are then compared with the information from the musculoskeletal
+        system. If there are discrepancies between the two signals, the
+        cerebellum engages the musculoskeletal system to correct orientation or
+        balance.
       </Text>
+      <Box position="fixed" right={"10vw"} top={"25vh"} pointerEvents="none">
+        <a.div style={balanceProps}>
+          <Image src="/balance.webp" alt="Balance Image" borderRadius="lg" />
+        </a.div>
+      </Box>
     </Box>
   );
 }

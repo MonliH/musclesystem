@@ -22,14 +22,13 @@ export default function MuscleMicroSection() {
         <Heading mb="5">Muscle Fibers</Heading>
         <Text w="500px" flexShrink={0}>
           Muscles are soft tissues made up of many different fibers or strands.
-          They normally contract to become tighter in response to nerve impulses
-          from the nervous system, allowing for muscles to pull on bones,
-          creating <b>movement</b>. Most muscle comes in bundles of fibers, but
-          some can be tubular, spindle, striated, or branched. There are three
-          types of muscle cells in the human body:{" "}
-          <b>cardiac, skeletal, and smooth</b>. Some of these you may
-          consciously contract and some may involuntarily contract. You have 600
-          different muscles in your body!
+          They usually contract to become tighter in response to nerve impulses
+          from the nervous system, allowing muscles to pull on bones, creating{" "}
+          <b>movement</b>. Most muscle comes in bundles of fibers, but some can
+          be tubular, spindle, or branched shapes. There are three types of
+          muscle cells in the human body: <b>cardiac, skeletal, and smooth</b>.
+          Some of these you may consciously contract, and some may involuntarily
+          contract. You have 600 different muscles in your body!
         </Text>
       </Section>
       <Section id="types" innerWidth="100%" p="0" pt="100px" mt="-100px">
@@ -42,11 +41,11 @@ export default function MuscleMicroSection() {
             <RoundImage url="/smooth-cell.webp" alt="Smooth Cell" />
             <Text>
               Smooth muscle cells are responsible for involuntary movement.
-              Smooth muscle cells make up several organs including the stomach,
+              Smooth muscle cells make up several organs, including the stomach,
               intestines, and esophagus. Smooth muscle fibers do essential jobs
-              like move waste through your intestines, and help your lungs
-              expand when you breathe. They come in spindle shaped cells and
-              contain only one nucleus.
+              like move waste through your intestines and help your lungs expand
+              when you breathe. They come in spindle-shaped cells and contain
+              only one nucleus.
             </Text>
           </Box>
           <Box mr="50px" w="350px">
@@ -56,14 +55,14 @@ export default function MuscleMicroSection() {
             </Heading>
             <RoundImage url="/skeletal-cell.webp" alt="Skeletal Cell" />
             <Text>
-              Skeletal muscle cells are cylindrical in shape, contain multiple
-              nuclei, and make up the muscle tissue connected to the skeleton
-              and are important in locomotion. Skeletal muscle cells have very
-              high energy demands, are arranged in bundles, and contain many
-              mitochondria. Skeletal muscle cells work with your tendons,
-              ligaments, and bones to support the weight of your body and help
-              you move. Skeletal muscle is the most common type of muscle in the
-              body and is the only type that you can voluntarily contract.
+              Skeletal muscle cells are cylindrical, contain multiple nuclei,
+              make up the muscle tissue connected to the skeleton, and are
+              essential in movement. Skeletal muscle cells have high energy
+              demands, are arranged in bundles, and contain many mitochondria.
+              These cells attach to your tendons to support the weight of your
+              body and help you move. Skeletal muscle is the most common type of
+              muscle in the body and is the only type that you can voluntarily
+              contract.
             </Text>
           </Box>
           <Box w="350px">
@@ -73,10 +72,10 @@ export default function MuscleMicroSection() {
             </Heading>
             <RoundImage url="/cardiac-cell.webp" alt="Cardiac Cell" />
             <Text>
-              Cardiac muscle cells are rectangular in shape, have only one
-              nucleus, are tubular, and contain many mitochondria. They are
-              exclusively present in cardiac muscle and perform strong
-              involuntary rhythmic contractions.
+              Cardiac muscle cells are rectangular, have only one nucleus, are
+              tubular, and contain many mitochondria. They are exclusively
+              present in the heart and perform strong involuntary rhythmic
+              contractions.
             </Text>
           </Box>
         </Box>

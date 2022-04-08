@@ -8,20 +8,25 @@ function SlowFastTwitch() {
         <Heading>Slow and Fast Twitch Fibers</Heading>
         <Text mt="3">
           Skeletal muscle cells can be further divided into two categories: slow
-          and fast twitch. Fast twitch muscle fibers can produce large amounts
-          of force but only in short bursts. On the other hand, slow twitch
-          muscle fibers contract with less force but can work over longer
-          periods of time. While sprinting, you primarily use fast twitch muscle
-          fibers, whereas while walking, you mostly use slow twitch fibers.
+          and fast twitch. Fast-twitch muscle fibers can produce large amounts
+          of force but only in short bursts. On the other hand, slow-twitch
+          muscle fibers contract with less force but can work over more extended
+          periods. While sprinting, you primarily use fast-twitch muscle fibers,
+          whereas you mostly use slow-twitch fibers while walking.
         </Text>
         <Text mt="3">
-          Typically, fast twitch muscle fibers have a greater diameter than slow
-          twitch fibers. Fast twitch muscles primarily rely on energy from
-          existing ATP and smaller glycogen (an energy dense molecule) stores to
-          contract, whereas slow twitch muscle fibers primarily rely on cellular
+          Typically, fast-twitch muscle fibers have a greater diameter than
+          slow-twitch fibers. Fast-twitch muscles primarily rely on energy from
+          existing ATP (the molecule that cells use to carry out their tasks)
+          and smaller glycogen (an energy dense molecule) stores to contract. In
+          contrast, slow twitch muscle fibers primarily rely on cellular
           respiration (oxygen and glucose to produce ATP). This difference in
-          energy sources is a factor in the slow twitch muscle’s resistance to
-          fatigue.
+          energy sources plays a role in the slow-twitch muscle{"'"}s resistance
+          to fatigue. Since the fast-twitch muscle relies on existing ATP and
+          glycogen, it will fatigue faster but can also produce greater
+          quantities of force. Because slow-twitch muscle fibers rely on
+          cellular respiration, they are more resistant to fatigue and will
+          produce a more continuous energy output.
         </Text>
       </Box>
       <Box ml="70px">

@@ -31,7 +31,7 @@ const InAction: NextPage = () => {
       onMouseUp={() => armRef.current?.flex(null)}
     >
       <MuscleSection />
-      <BalancingSection>
+      <BalancingSection order={1}>
         <GoNext prevUrl="muscle" nextUrl="staying-healthy" />
       </BalancingSection>
     </Page>

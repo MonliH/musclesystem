@@ -24,7 +24,13 @@ export default function JointOverview({ order }: { order: number }) {
   });
   return (
     <Section id="overview">
-      <Heading mb="10">Parts of a Joint</Heading>
+      <Heading mb="5">Joints: An Overview</Heading>
+      <Text mb="8">
+        Joints are the points where bones connect. They are made up of bone and
+        other soft tissue such as ligaments, cartilage, bursae, and tendons.
+        Every joint in your body helps hold your bones together and allows
+        movement in different directions.
+      </Text>
       <Accordion allowToggle index={expanded} onChange={setExpanded}>
         <AccordionItem>
           <AccordionButton>
@@ -37,9 +43,9 @@ export default function JointOverview({ order }: { order: number }) {
             <Text>
               Cartilage is a flexible connective tissue that keeps joints moving
               by coating the surfaces and cushioning against impact. Cartilage
-              is the main type of connective tissue and can be found throughout
-              the body, including the lungs, ears, nose, spine, bones, and of
-              course, joints. The attached muscles contract to move the bones.
+              is the primary type of connective tissue and can be found
+              throughout the body, including in the lungs, ears, nose, spine,
+              bones, and of course, joints.
             </Text>
           </AccordionPanel>
         </AccordionItem>
@@ -52,10 +58,10 @@ export default function JointOverview({ order }: { order: number }) {
           </AccordionButton>
           <AccordionPanel>
             <Text>
-              Ligaments are made of dense fibrous elastic tissue that connect
-              bones to one and other, forming part of the joint. Ligaments can
-              also help to limit hyperextension and hyperflexion of the
-              joints—that is, when joints extend further than they are meant to.
+              Ligaments, made of dense fibrous elastic tissue, connect bones
+              together, forming part of the joint. Ligaments can also help to
+              limit hyperextension and hyperflexion of the joints—that is, when
+              joints extend further than they are meant.
             </Text>
           </AccordionPanel>
         </AccordionItem>
@@ -68,10 +74,9 @@ export default function JointOverview({ order }: { order: number }) {
           </AccordionButton>
           <AccordionPanel>
             <Text>
-              A bursa is an enclosed, fluid filled sac that works as a cushion
-              and a gliding/slippery? surface to reduce surface friction. A busa
-              is also made of fibrous tissue, but doesn{"'"}t make up part of
-              the joint.
+              A bursa is an enclosed, fluid-filled sac that works as a cushion
+              and a slippery surface to reduce friction. A bursa is also made of
+              fibrous tissue, but doesn{"'"}t make up part of the joint.
             </Text>
           </AccordionPanel>
         </AccordionItem>
@@ -84,13 +89,13 @@ export default function JointOverview({ order }: { order: number }) {
           </AccordionButton>
           <AccordionPanel>
             <Text>
-              Tendons are a tough flexible band of fibrous connective tissue
-              that connects muscles to bones. Tendons are responsible for moving
-              our limbs. Tendons are highly resistant to tear, but aren{"'"}t
-              stretchy. This means they can be easily injured when strained, and
-              will take a long time to heal. Tendons can be found throughout
-              your body! The largest of which being the Achilles tendon, which
-              connects your calf muscle to your heel bone.
+              Tendons are a tough, flexible band of fibrous connective tissue
+              that binds muscle to bone. They are primarily made up of collagen,
+              a protein commonly found in the body. Tendons are similar to a
+              rope: they don{"'"}t tear easily and don{"'"}t stretch. They can
+              be easily injured when strained and take a long time to heal.
+              There are over 300 tendons in your body, the largest being the
+              Achilles tendon, which connects your calf muscle to your heel.
             </Text>
           </AccordionPanel>
         </AccordionItem>
