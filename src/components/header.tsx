@@ -129,6 +129,7 @@ const DesktopNav = () => {
             {navItem.children && (
               <PopoverContent
                 zIndex={2001}
+                mt={"-8px"}
                 border={0}
                 boxShadow={"xl"}
                 bg={popoverContentBgColor}
