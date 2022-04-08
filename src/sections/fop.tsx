@@ -36,7 +36,13 @@ export default function FopSection({ order }: { order: number }) {
         of 2017 there were approximately 800 cases of FOP confirmed worldwide,
         with an estimated incidence of 0.5 per million people.
       </Text>
-      <Box position="fixed" right={"7vw"} top={"18vh"} pointerEvents="none">
+      <Box
+        position="fixed"
+        right={"7vw"}
+        top={"18vh"}
+        maxWidth="40vw"
+        pointerEvents="none"
+      >
         {/* @ts-ignore */}
         <a.div style={{ opacity }}>
           <Image

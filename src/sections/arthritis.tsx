@@ -16,20 +16,15 @@ import Section, { useSection } from "sections/section";
 export default function ArthritisSection({ order }: { order: number }) {
   const { visible } = useSection(order);
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
-  const [expanded, setExpanded] = useState(-1);
 
   return (
-    <Section id="condition">
+    <Section id="arthritis">
       <Heading mb="1">Arthritis</Heading>
       <Text mb="4">
         Arthritis is a range of conditions that affect the body{"'"}s joints.
         There are two main types, osteoarthritis and rheumatoid arthritis.
       </Text>
-      <Accordion
-        allowToggle
-        index={expanded}
-        onChange={(e) => setExpanded(e as number)}
-      >
+      <Accordion allowToggle allowMultiple>
         <AccordionItem>
           <AccordionButton>
             <Heading flex="1" textAlign="left" size="md">
@@ -76,12 +71,12 @@ export default function ArthritisSection({ order }: { order: number }) {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <Box position="fixed" right={"20vw"} top={"25vh"} pointerEvents="none">
+      <Box position="fixed" right={"10vw"} top={"25vh"} pointerEvents="none">
         {/* @ts-ignore */}
         <a.div style={{ opacity }}>
           <Image
-            src="/fop.jpg"
-            alt="Image of person with FOP"
+            src="/arthritis.webp"
+            alt="Comparison of different types of arthritis"
             borderRadius="lg"
           />
         </a.div>

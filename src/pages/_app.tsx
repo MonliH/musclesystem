@@ -14,5 +14,18 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   );
 }
+console.log(
+  "%cHello There!",
+  "border: solid black 1px; color: #1f1f1f; font-size: 30px; padding-left: 5px; padding-right: 5px; border-radius: 3px;"
+);
+console.log(
+  "%cLet me know if you see this!\n%c- Jonathan Li",
+  "color: green; font-size: 16px;",
+  "color: black; font-size: 18px;"
+);
+console.log(
+  "If you want to see the code, take a look at the github repo: %chttps://github.com/MonliH/musclesystem/",
+  "color: blue"
+);
 
 export default MyApp;

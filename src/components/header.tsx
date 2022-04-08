@@ -328,6 +328,7 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "Staying Healthy",
     href: "/staying-healthy",
     children: [
+      { label: "Arthritis", href: "#arthritis" },
       { label: "FOP: A Rare Condition", href: "#condition" },
       { label: "Staying Healthy", href: "#staying-healthy" },
       { label: "Poster", href: "#promotional-poster" },
