@@ -137,19 +137,46 @@ export default function StayingHealthySection({ order }: { order: number }) {
               </Text>
             </AccordionPanel>
           </AccordionItem>
+          <AccordionItem>
+            <AccordionButton>
+              <Heading size="md" flex="1" textAlign="left">
+                Stretching Consistently
+              </Heading>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel>
+              <Text>
+                Stretching consistently will improve your muscles’ flexibility.
+                Flexibility is important for your health because it improves
+                mobility and range of motion, allowing us to perform our daily
+                routines efficiently. If your flexibility is low, your muscles
+                will tighten and become short. Not only will this make moving
+                around uncomfortable and require more effort, your muscles may
+                now be at risk for tearing or spraining if extended to a normal
+                range.
+              </Text>
+            </AccordionPanel>
+          </AccordionItem>
         </Accordion>
         <a.div style={props}>
           {transitions(({ opacity }, ty) => {
             let imgPath;
+            let width;
+            let top;
             switch (ty) {
               case -1:
-                imgPath = "mss-healthy.jpg";
+                imgPath = "/mss-healthy.jpg";
                 break;
               case 0:
-                imgPath = "exercise.webp";
+                imgPath = "/exercise.webp";
                 break;
               case 1:
-                imgPath = "food.webp";
+                imgPath = "/food.webp";
+                break;
+              case 2:
+                imgPath = "/stretch.webp";
+                width = "17vw";
+                top = "18vh";
                 break;
             }
             return (
@@ -157,9 +184,10 @@ export default function StayingHealthySection({ order }: { order: number }) {
                 position="fixed"
                 zIndex="-100"
                 pointerEvents="none"
-                top="25vh"
+                top={top ?? "25vh"}
                 right="10vw"
-                width="30vw"
+                width={width ?? "30vw"}
+                maxHeight="70vh"
               >
                 <Box position="relative">
                   <a.div

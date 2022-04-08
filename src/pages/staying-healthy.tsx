@@ -2,9 +2,9 @@ import { Box } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import FopSection from "sections/fop";
 import Page from "components/page";
-import StayingHealthySection from "sections/staying-healthy";
+import StayingHealthySection from "sections/stayingHealthy";
 import GoNext from "components/goNext";
-import PromotionalPoster from "sections/promotional-poster";
+import PromotionalPoster from "sections/promotionalPoster";
 
 const StayingHealthy: NextPage = () => {
   return (
