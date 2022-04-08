@@ -18,7 +18,8 @@ import Section, { useSection } from "sections/section";
 
 export default function StayingHealthySection({ order }: { order: number }) {
   const [idx, setIdx] = useState<number>(-1);
-  const { visible } = useSection(order);
+  const { visible: v, atPrev, nextTransitionUnbounded } = useSection(order);
+  const visible = v || (!v && !atPrev && nextTransitionUnbounded < 1.1);
   const transitions = useTransition([idx], {
     key: idx,
     from: { opacity: 0 },
@@ -165,7 +166,7 @@ export default function StayingHealthySection({ order }: { order: number }) {
             let top;
             switch (ty) {
               case -1:
-                imgPath = "/mss-healthy.jpg";
+                imgPath = "/mss-healthy.webp";
                 break;
               case 0:
                 imgPath = "/exercise.webp";
