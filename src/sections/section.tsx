@@ -11,7 +11,7 @@ export default function Section({
   return (
     <Box
       p={["50px", "50px", "120px", "180px", "250px"]}
-      pl={["50px", "50px", "120px", "120px", "150px", "250px"]}
+      pl={["50px", "50px", "100px", "100px", "150px", "250px"]}
       pr={["5px", "5px", "5px", "5px", "5px"]}
       minHeight="100vh"
       width="fit-content"
@@ -44,11 +44,13 @@ export function useSection(
   ]);
   const pageProgress = pagePixelProgress + height * 0.4;
   useEffect(() => {
+    console.log("hi");
     const hash = window.location.hash;
+    console.log("hi", hash);
     if (typeof hash !== "string") return;
     const element = document.getElementById(
       hash.length
-        ? hash
+        ? hash.slice(1)
         : URL_TO_FIRST_CHILD_HREF[window.location.pathname.slice(1)].slice(1)
     );
     if (!element) return;
