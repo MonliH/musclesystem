@@ -123,13 +123,23 @@ function JointTypes({ order }: { order: number }) {
   return (
     <Box position="relative" mb="50px">
       <Box>
-        <Heading mb="5">Types of Joints</Heading>
-        <Text>
-          There are many different types of joints in the body. These include
-          the...
-        </Text>
-        <ButtonGroup isAttached mt="7" mb="2">
-          {JOINT_TO_TITLE.map(([ty, title]) => (
+        <Heading>Types of Joints</Heading>
+        <ButtonGroup isAttached mt="7">
+          {JOINT_TO_TITLE.slice(0, 3).map(([ty, title]) => (
+            <Button
+              key={ty}
+              onClick={() => {
+                setJointType(ty);
+              }}
+              variant={ty === jointType ? "solid" : "outline"}
+              colorScheme={ty === jointType ? "blue" : "gray"}
+            >
+              {title}
+            </Button>
+          ))}
+        </ButtonGroup>
+        <ButtonGroup isAttached mb="2">
+          {JOINT_TO_TITLE.slice(3, 7).map(([ty, title]) => (
             <Button
               key={ty}
               onClick={() => {
@@ -152,7 +162,9 @@ function JointTypes({ order }: { order: number }) {
             position="fixed"
             zIndex="-100"
             pointerEvents="none"
-            top="calc(50vh - (30vw/2))"
+            top={`calc(50vh - (30vw/2) + ${
+              OBJS_WITH_3D.includes(ty) ? "70" : "0"
+            }px)`}
             width="30vw"
             right={OBJS_WITH_3D.includes(ty) ? 0 : "15vw"}
           >

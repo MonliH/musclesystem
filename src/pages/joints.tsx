@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import CartilageSection from "sections/jointOverview";
-import Cartilage from "models/Overview";
+import Overview from "models/Overview";
 import JointTypes from "sections/typesOfJoints";
 import Joints from "models/Joints";
 import Page from "components/page";
@@ -12,7 +12,7 @@ const BonePage: NextPage = () => {
     <Page
       models={
         <Physics>
-          <Cartilage order={0} />
+          <Overview order={0} />
           <Joints order={1} />
         </Physics>
       }
