@@ -332,6 +332,7 @@ const NAV_ITEMS: Array<NavItem> = [
     children: [
       { label: "FOP: A Rare Condition", href: "#condition" },
       { label: "Staying Healthy", href: "#staying-healthy" },
+      { label: "Poster", href: "#promotional-poster" },
     ],
   },
   { label: "Credits", href: "/credits" },
