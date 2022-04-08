@@ -17,7 +17,7 @@ const BonePage: NextPage = () => {
         </Physics>
       }
     >
-      <CartilageSection />
+      <CartilageSection order={0} />
       <JointTypes order={1}>
         <GoNext prevUrl="bone" nextUrl="muscle" />
       </JointTypes>

@@ -127,11 +127,7 @@ export default function StayingHealthySection({ order }: { order: number }) {
               </Text>
               <Text mt="3">
                 For more information about healthy food choices, refer to{" "}
-                <Link
-                  href="https://food-guide.canada.ca/"
-                  target="_blank"
-                  color="blue.400"
-                >
+                <Link href="https://food-guide.canada.ca/" target="_blank">
                   Canada’s food guide
                 </Link>
                 .

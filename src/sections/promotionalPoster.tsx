@@ -6,7 +6,7 @@ function PromotionalPoster() {
     <Box w="100%">
       <Heading mb="5">Promotional Poster</Heading>
       <iframe
-        src="https://drive.google.com/file/d/1bPONlqI6BsIBGWg8mETinN-C352kTARY/preview"
+        src="https://drive.google.com/file/d/1GNhqYfVZJkM9-ZrYOLV2g5e1ZF00A7Gf/preview"
         style={{
           width: "50vw",
           height: "calc(50vw / 0.75)",

@@ -10,16 +10,17 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { a, useSpring } from "react-spring";
-import Section from "sections/section";
+import Section, { useSection } from "sections/section";
 import useJointPart, { JointPart } from "stores/jointPart";
 
-export default function JoinOverview() {
+export default function JointOverview({ order }: { order: number }) {
   const [expanded, setExpanded] = useJointPart((state) => [
     state.part,
     state.setPart,
   ]);
+  const { visible } = useSection(order);
   const bursaeProps = useSpring({
-    opacity: expanded == JointPart.Bursae ? 1 : 0,
+    opacity: expanded == JointPart.Bursae && visible ? 1 : 0,
   });
   return (
     <Section id="overview">

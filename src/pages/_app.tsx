@@ -3,10 +3,11 @@ import "../styles/globals.css";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import WithSubnavigation from "components/header";
+import theme from "styles/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Box position="fixed" width="100%" zIndex={1000}>
         <WithSubnavigation />
       </Box>

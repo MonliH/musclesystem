@@ -166,6 +166,7 @@ const DesktopSubNav = ({
       <Link
         href={href}
         role={"group"}
+        color="gray.600"
         display={"block"}
         p={2}
         rounded={"md"}
