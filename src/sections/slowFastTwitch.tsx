@@ -24,12 +24,19 @@ function SlowFastTwitch() {
           fatigue.
         </Text>
       </Box>
-      <Image
-        src="/twitch-fibers.jpeg"
-        alt="proportion of slow to fast twitch muscle fibers"
-        ml="70px"
-        maxWidth="45vw"
-      />
+      <Box ml="70px">
+        <Image
+          src="/twitch-fibers.jpeg"
+          alt="proportion of slow to fast twitch muscle fibers"
+          maxWidth="45vw"
+        />
+        <Text>
+          <i>
+            Proportion of slow and fast twitch muscle fibers in different
+            athletes
+          </i>
+        </Text>
+      </Box>
     </Box>
   );
 }

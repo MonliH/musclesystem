@@ -50,6 +50,12 @@ export default function FopSection({ order }: { order: number }) {
             alt="Difference between healthy bone and bone from person with FOP"
             borderRadius="lg"
           />
+          <Text mt="1">
+            <i>
+              Difference between a healthy bone (left) and bone from an FOP
+              patient (right)
+            </i>
+          </Text>
         </a.div>
       </Box>
     </Section>
