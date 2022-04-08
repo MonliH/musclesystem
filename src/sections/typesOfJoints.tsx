@@ -11,8 +11,8 @@ import useJointType, { JointType } from "stores/jointType";
 import { config, a, useTransition, useSpring } from "react-spring";
 
 const JOINT_TO_TITLE: [JointType, string][] = [
-  [JointType.BallAndSocket, "Ball & Socket"],
   [JointType.Hinge, "Hinge"],
+  [JointType.BallAndSocket, "Ball & Socket"],
   [JointType.Pivot, "Pivot"],
   [JointType.Condyloid, "Condyloid"],
   [JointType.Plane, "Plane"],
