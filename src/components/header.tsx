@@ -127,28 +127,25 @@ const DesktopNav = () => {
             </NextLink>
 
             {navItem.children && (
-              <Portal>
-                <PopoverContent
-                  zIndex={1001}
-                  border={0}
-                  boxShadow={"xl"}
-                  bg={popoverContentBgColor}
-                  p={2}
-                  mt={2}
-                  rounded={"md"}
-                  width="fit-content"
-                >
-                  <Stack spacing={0}>
-                    {navItem.children.map((child) => (
-                      <DesktopSubNav
-                        key={child.label}
-                        {...child}
-                        parentHref={navItem.href!}
-                      />
-                    ))}
-                  </Stack>
-                </PopoverContent>
-              </Portal>
+              <PopoverContent
+                zIndex={2001}
+                border={0}
+                boxShadow={"xl"}
+                bg={popoverContentBgColor}
+                p={2}
+                rounded={"md"}
+                width="fit-content"
+              >
+                <Stack spacing={0}>
+                  {navItem.children.map((child) => (
+                    <DesktopSubNav
+                      key={child.label}
+                      {...child}
+                      parentHref={navItem.href!}
+                    />
+                  ))}
+                </Stack>
+              </PopoverContent>
             )}
           </Popover>
         </Box>
