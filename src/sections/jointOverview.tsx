@@ -110,7 +110,7 @@ export default function JointOverview({ order }: { order: number }) {
       </Accordion>
       <Box
         position="fixed"
-        right={["0", "0", "20px", "20px", "30px", "15vw"]}
+        right={["0", "0", "7vw", "8vw", "12vw", "15vw"]}
         top={"25vh"}
         pointerEvents="none"
       >
@@ -120,10 +120,10 @@ export default function JointOverview({ order }: { order: number }) {
             alt="Figure of bursa"
             borderRadius="lg"
             border="1px solid"
-            width={["0", "0", "200px", "390px", "500px", "600px"]}
+            width={["0", "0", "200px", "390px", "550px", "600px"]}
           />
           <Text
-            width={["0", "0", "200px", "390px", "500px", "600px"]}
+            width={["0", "0", "200px", "390px", "550px", "600px"]}
             mt="2"
             px="2"
           >
