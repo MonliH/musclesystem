@@ -31,7 +31,15 @@ export default function JointOverview({ order }: { order: number }) {
         Every joint in your body helps hold your bones together and allows
         movement in different directions.
       </Text>
-      <Accordion allowToggle index={expanded} onChange={setExpanded}>
+      <Accordion
+        allowToggle
+        index={expanded}
+        onChange={setExpanded}
+        backdropFilter="blur(8px)"
+        p="4"
+        m="-4"
+        borderRadius="xl"
+      >
         <AccordionItem>
           <AccordionButton>
             <Heading flex="1" textAlign="left" size="md">
@@ -100,9 +108,18 @@ export default function JointOverview({ order }: { order: number }) {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <Box position="fixed" right={"15vw"} top={"25vh"} pointerEvents="none">
+      <Box
+        position="fixed"
+        right={["0", "0", "20px", "20px", "30px", "15vw"]}
+        top={"25vh"}
+        pointerEvents="none"
+      >
         <a.div style={bursaeProps}>
-          <Image src="/bursae.webp" alt="Figure of bursa" />
+          <Image
+            src="/bursae.webp"
+            alt="Figure of bursa"
+            width={["0", "0", "200px", "390px", "500px", "600px"]}
+          />
         </a.div>
       </Box>
     </Section>

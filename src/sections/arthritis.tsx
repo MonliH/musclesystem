@@ -70,13 +70,19 @@ export default function ArthritisSection({ order }: { order: number }) {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <Box position="fixed" right={"10vw"} top={"25vh"} pointerEvents="none">
+      <Box
+        position="fixed"
+        right={["5vw", "5vw", "5vw", "5vw", "10vw"]}
+        top={"25vh"}
+        pointerEvents="none"
+      >
         {/* @ts-ignore */}
         <a.div style={{ opacity }}>
           <Image
             src="/arthritis.webp"
             alt="Comparison of different types of arthritis"
             borderRadius="lg"
+            width="40vw"
           />
         </a.div>
       </Box>

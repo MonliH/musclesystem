@@ -23,7 +23,12 @@ function BalancingSection({ order }: { order: number }) {
       </Text>
       <Box position="fixed" right={"10vw"} top={"25vh"} pointerEvents="none">
         <a.div style={balanceProps}>
-          <Image src="/balance.webp" alt="Balance Image" borderRadius="lg" />
+          <Image
+            src="/balance.webp"
+            alt="Balance Image"
+            borderRadius="lg"
+            width={"35vw"}
+          />
         </a.div>
       </Box>
     </Box>

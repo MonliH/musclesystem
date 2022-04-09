@@ -221,10 +221,15 @@ export default function Joints({ order }: { order: number }) {
   return (
     <>
       <a.group visible={opacity.to((v) => v > 0)} renderOrder={order}>
-        <Html position={[0, 1.7, -2.3]}>
+        <Html
+          position={[0, 1.7, -2.3]}
+          style={{ zIndex: 100, position: "relative" }}
+        >
           <div
             style={{
               pointerEvents: "none",
+              zIndex: 100,
+              position: "relative",
               padding: "10px",
               border: "1px solid #CBD5E0",
               borderRadius: "5px",

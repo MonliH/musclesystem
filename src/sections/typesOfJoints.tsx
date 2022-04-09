@@ -156,7 +156,7 @@ function JointTypes({ order }: { order: number }) {
           <JointDesc jointType={jointType} />
         </Box>
       </Box>
-      <a.div style={props}>
+      <a.div style={{ ...props, zIndex: -100 }}>
         {transitions(({ opacity }, ty) => (
           <Box
             position="fixed"
@@ -168,14 +168,16 @@ function JointTypes({ order }: { order: number }) {
             width="30vw"
             right={OBJS_WITH_3D.includes(ty) ? 0 : "15vw"}
           >
-            <Box position="relative">
+            <Box position="relative" zIndex={-100}>
               <a.div
                 style={{
                   position: "absolute",
                   opacity,
+                  zIndex: -100,
                 }}
               >
                 <Image
+                  zIndex={-100}
                   alt={OBJ_JOINT_TO_IMG[ty]}
                   src={JOINT_TO_IMAGE_URL[ty]}
                 />

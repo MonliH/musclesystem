@@ -5,8 +5,8 @@ import Section from "sections/section";
 const RoundImage = ({ url, alt }: { url: string; alt: string }) => (
   <Box
     my="5"
-    width="350px"
-    height="350px"
+    w={["250px", "250px", "250px", "250px", "350px"]}
+    h={["250px", "250px", "250px", "250px", "350px"]}
     position="relative"
     borderRadius="lg"
     overflow="hidden"
@@ -33,7 +33,7 @@ export default function MuscleMicroSection() {
       </Section>
       <Section id="types" innerWidth="100%" p="0" pt="100px" mt="-100px">
         <Box display="flex" flexDirection="row" id="types" width="100%">
-          <Box mr="50px" w="350px">
+          <Box mr="50px" w={["250px", "250px", "250px", "250px", "350px"]}>
             <Heading size="lg">Smooth Muscle</Heading>
             <Heading size="md" color="grey">
               For involuntary movement
@@ -48,7 +48,7 @@ export default function MuscleMicroSection() {
               only one nucleus.
             </Text>
           </Box>
-          <Box mr="50px" w="350px">
+          <Box mr="50px" w={["250px", "250px", "250px", "250px", "350px"]}>
             <Heading size="lg">Skeletal Muscle</Heading>
             <Heading size="md" color="grey">
               For voluntary movement
@@ -65,7 +65,7 @@ export default function MuscleMicroSection() {
               contract.
             </Text>
           </Box>
-          <Box w="350px">
+          <Box w={["250px", "250px", "250px", "250px", "350px"]}>
             <Heading size="lg">Cardiac Muscle</Heading>
             <Heading size="md" color="grey">
               In the heart
