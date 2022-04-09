@@ -24,7 +24,7 @@ const OBJ_JOINT_TO_IMG: Record<JointType, string> = Object.fromEntries(
   JOINT_TO_TITLE
 ) as any;
 
-const OBJS_WITH_3D = [
+export const OBJS_WITH_3D: JointType[] = [
   JointType.BallAndSocket,
   JointType.Hinge,
   JointType.Pivot,

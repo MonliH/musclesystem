@@ -11,6 +11,7 @@ import { ReactNode, RefObject, useRef, useState } from "react";
 import { createRef, useCallback, useEffect } from "react";
 import { MousePointer } from "react-feather";
 import { useSection } from "sections/section";
+import { OBJS_WITH_3D } from "sections/typesOfJoints";
 import useJointType, { JointType } from "stores/jointType";
 import { Object3D, Vector3 } from "three";
 import { Line2 } from "three-stdlib";
@@ -237,7 +238,10 @@ export default function Joints({ order }: { order: number }) {
               color: "#718096",
               display: "flex",
               flexDirection: "row",
-              opacity: visible && !moved ? "1" : "0",
+              opacity:
+                visible && !moved && OBJS_WITH_3D.includes(jointType)
+                  ? "1"
+                  : "0",
               transition: "opacity 0.2s",
               alignItems: "center",
             }}
