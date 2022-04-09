@@ -5,11 +5,10 @@ import {
   Heading,
   Spacer,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import Image from "next/image";
 import NextLink from "next/link";
-import CoverImage from "../../public/cover-image.webp";
 import { ArrowRight } from "react-feather";
 import ToolTipButton from "components/tooltipButton";
 
@@ -57,7 +56,11 @@ const Home: NextPage = () => {
         </ButtonGroup>
       </Box>
       <Box p={["0px", "0px", "0px", "0px", "50px"]}>
-        <Image src={CoverImage} alt="Cover Image" objectFit="cover" />
+        <Image
+          src="/cover-image.webp"
+          alt="Cover Image"
+          maxHeight="calc(100vh - 150px)"
+        />
       </Box>
       <Spacer />
     </Box>
