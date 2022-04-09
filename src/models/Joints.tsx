@@ -4,6 +4,7 @@ import {
   usePointToPointConstraint,
   useSphere,
   useCylinder,
+  PublicApi,
 } from "@react-three/cannon";
 import { Html, Line } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
@@ -18,10 +19,11 @@ import { Line2 } from "three-stdlib";
 
 const cursor = createRef<Object3D>();
 
-function useDragConstraint(child: RefObject<Object3D>) {
+function useDragConstraint(child: RefObject<Object3D>, maxForce = 20) {
   const [, , api] = usePointToPointConstraint(cursor, child, {
     pivotA: [0, 0, 0],
     pivotB: [0, 0, 0],
+    maxForce,
   });
   useEffect(() => void api.disable(), []);
   const onPointerDown = useCallback((e) => {
@@ -47,6 +49,7 @@ function Joint({
   onDisplay,
   additionalGeometry,
   showLine = false,
+  maxForce,
 }: {
   useConstraint: (
     ref1: RefObject<Object3D>,
@@ -59,12 +62,13 @@ function Joint({
   planeRot: [number, number, number];
   setPos: (x: number, y: number, z: number) => void;
   active: boolean;
-  onPointerDown: (e: ThreeEvent<PointerEvent>) => void;
-  onPointerUp: (e: ThreeEvent<PointerEvent>) => void;
+  onPointerDown: (e: ThreeEvent<PointerEvent>, api2: PublicApi) => void;
+  onPointerUp: (e: ThreeEvent<PointerEvent>, api2: PublicApi) => void;
   children: ReactNode;
   onDisplay: boolean;
   additionalGeometry?: ReactNode;
   showLine?: boolean;
+  maxForce?: number;
 }) {
   const spacing = 0.2;
   const radius = 0.25 / 2;
@@ -83,14 +87,14 @@ function Joint({
     mass: 1,
   }));
   useConstraint(ref1, ref2, spacing);
-  const bind = useDragConstraint(ref2);
+  const bind = useDragConstraint(ref2, maxForce);
   const onDown = (e: ThreeEvent<PointerEvent>) => {
-    if (onPointerDown) onPointerDown(e);
+    if (onPointerDown) onPointerDown(e, api2);
     bind.onPointerDown(e);
   };
   const onUp = (e: ThreeEvent<PointerEvent>) => {
     bind.onPointerUp();
-    if (onPointerUp) onPointerUp(e);
+    if (onPointerUp) onPointerUp(e, api2);
   };
 
   useEffect(() => {
@@ -155,6 +159,8 @@ function Joint({
       <mesh
         rotation={planeRot}
         position={planePos}
+        onPointerLeave={onUp}
+        onPointerUp={onUp}
         onPointerMove={(e: ThreeEvent<PointerEvent>) => {
           if (active) {
             setPos(e.point.x, e.point.y, e.point.z);
@@ -345,7 +351,9 @@ export default function Joints({ order }: { order: number }) {
         </Joint>
         <Joint
           render={<a.meshStandardMaterial {...props} />}
-          onPointerDown={sc(2)}
+          onPointerDown={(e) => {
+            sc(2)(e);
+          }}
           setPos={setPos}
           position={[0, 0, -1.25]}
           onPointerUp={pointerUp}
