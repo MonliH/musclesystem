@@ -3,7 +3,7 @@ import { withChildren } from "sections/section";
 
 function SlowFastTwitch() {
   return (
-    <Box display="flex" flexDir={"row"} alignItems="center">
+    <Box display="flex" flexDir={"row"}>
       <Box width="500px" flexShrink={0}>
         <Heading>Slow and Fast Twitch Fibers</Heading>
         <Text mt="3">
@@ -48,7 +48,7 @@ function SlowFastTwitch() {
 
 export default withChildren(SlowFastTwitch, "slow-fast-twitch", {
   p: "0",
-  pl: ["50px", "50px", "120px", "120px", "150px", "250px"],
+  pl: ["50px", "50px", "100px", "100px", "150px", "250px"],
   innerWidth: "100%",
   pt: "100px",
   mt: "-100px",

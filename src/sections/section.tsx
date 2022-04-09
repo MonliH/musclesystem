@@ -13,7 +13,7 @@ export default function Section({
       p={["50px", "50px", "120px", "180px", "250px"]}
       pl={["50px", "50px", "100px", "100px", "150px", "250px"]}
       pr={["5px", "5px", "5px", "5px", "5px"]}
-      minHeight="100vh"
+      minHeight={props.minHeight ?? "100vh"}
       width="fit-content"
       {...props}
     >
