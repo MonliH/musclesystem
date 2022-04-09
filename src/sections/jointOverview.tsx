@@ -118,8 +118,18 @@ export default function JointOverview({ order }: { order: number }) {
           <Image
             src="/bursae.webp"
             alt="Figure of bursa"
+            borderRadius="lg"
+            border="1px solid"
             width={["0", "0", "200px", "390px", "500px", "600px"]}
           />
+          <Text
+            width={["0", "0", "200px", "390px", "500px", "600px"]}
+            mt="2"
+            px="2"
+          >
+            Bursae in the knee joint. As seen on the right, the bursae act as a
+            cushion during knee flexion.
+          </Text>
         </a.div>
       </Box>
     </Section>
