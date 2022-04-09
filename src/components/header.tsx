@@ -349,3 +349,9 @@ export const URL_TO_FIRST_CHILD_HREF: { [key: string]: string } =
       children?.[0]?.href ?? "",
     ])
   );
+
+export const HASH_TO_POSITION: { [key: string]: number } = Object.fromEntries(
+  NAV_ITEMS.flatMap(
+    ({ children }) => children?.map(({ href }, idx) => [href, idx]) ?? []
+  )
+);

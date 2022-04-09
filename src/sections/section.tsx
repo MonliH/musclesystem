@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useRef } from "react";
 import { Box, BoxProps, Spacer, VStack } from "@chakra-ui/react";
 import usePage from "stores/page";
-import { URL_TO_FIRST_CHILD_HREF } from "components/header";
+import { HASH_TO_POSITION, URL_TO_FIRST_CHILD_HREF } from "components/header";
 
 export default function Section({
   children,
@@ -45,14 +45,8 @@ export function useSection(
   const pageProgress = pagePixelProgress + height * 0.4;
   useEffect(() => {
     const hash = window.location.hash;
-    if (typeof hash !== "string") return;
-    const element = document.getElementById(
-      hash.length
-        ? hash.slice(1)
-        : URL_TO_FIRST_CHILD_HREF[window.location.pathname.slice(1)].slice(1)
-    );
-    if (!element) return;
-    setPageProgress(element.getBoundingClientRect().top);
+    const offset = HASH_TO_POSITION[hash] * window.innerHeight;
+    setPageProgress(offset);
   }, []);
   const sectionHeight = height * sectionLen;
   const sectionPixelOffset = pageProgress - order * height;
