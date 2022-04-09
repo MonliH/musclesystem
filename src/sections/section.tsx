@@ -45,7 +45,7 @@ export function useSection(
   const pageProgress = pagePixelProgress + height * 0.4;
   useEffect(() => {
     const hash = window.location.hash;
-    const offset = HASH_TO_POSITION[hash] * window.innerHeight;
+    const offset = hash ? HASH_TO_POSITION[hash] * window.innerHeight : 0;
     setPageProgress(offset);
   }, []);
   const sectionHeight = height * sectionLen;
