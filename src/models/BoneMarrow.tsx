@@ -36,12 +36,10 @@ export default function BoneMarrow({ order }: { order: number }) {
   if (!visible || nextTransitionAmt > 0.5) {
     api({ x: window.innerWidth / 2 });
   }
-  const transitionCutoff =
-    nextTransitionAmt < 0.5 ? 0 : (nextTransitionAmt - 0.5) * 2;
   const labelProps = {
     transition: "all 0.2s",
     transform: "translateZ(0.1px)",
-    opacity: transitionCutoff == 0 ? 1 : 0,
+    opacity: visible ? 1 : 0,
   };
   useFrame(() => {
     if (
