@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense, UIEvent, useEffect, useRef } from "react";
 import usePage from "stores/page";
 import Script from "next/script";
+import useScroll from "stores/scroll";
 
 export default function Page({
   children,
@@ -17,7 +18,9 @@ export default function Page({
   const canvasRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const initedRef = useRef(false);
+  const setScrolled = useScroll((s) => s.setScroll);
   const initFn = () => {
+    setScrolled(true);
     if (
       !initedRef.current &&
       window.uss &&
@@ -31,6 +34,7 @@ export default function Page({
 
       const onScroll = (_e: Event) => {
         const e = _e as WheelEvent;
+        setScrolled(false);
         window.uss.scrollYBy(e.deltaY, contentRef.current, null, false);
       };
       window.uss.setYStepLengthCalculator(easeFunction, contentRef.current);
@@ -53,6 +57,7 @@ export default function Page({
         overflowY="scroll"
         onScroll={(e: UIEvent<HTMLDivElement>) => {
           setScroll(e.currentTarget.scrollTop);
+          setScrolled(false);
         }}
         {...parentProps}
       >

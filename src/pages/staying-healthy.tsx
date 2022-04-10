@@ -5,10 +5,12 @@ import StayingHealthySection from "sections/stayingHealthy";
 import GoNext from "components/goNext";
 import PromotionalPoster from "sections/promotionalPoster";
 import ArthritisSection from "sections/arthritis";
+import ScrollIndicator from "components/scroll";
 
 const StayingHealthy: NextPage = () => {
   return (
     <Page models={null}>
+      <ScrollIndicator />
       <ArthritisSection order={0} />
       <FopSection order={1} />
       <StayingHealthySection order={2} />

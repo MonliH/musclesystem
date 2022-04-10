@@ -21,3 +21,39 @@ a {
   outline: none;
   box-shadow: none;
 }
+
+.mouse {
+  width: 26px;
+  height: 45px;
+  border: 3px solid grey;
+  border-radius: 60px;
+  position: relative;
+}
+.mouse::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: grey;
+  border-radius: 50%;
+  opacity: 1;
+  animation: wheel 2s infinite;
+  -webkit-animation: wheel 2s infinite;
+}
+
+@keyframes wheel {
+	to {
+		opacity: 0;
+		top: 27px;
+	}
+}
+
+@-webkit-keyframes wheel {
+	to {
+		opacity: 0;
+		top: 27px;
+	}
+}

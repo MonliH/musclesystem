@@ -6,6 +6,7 @@ import MuscleSection from "sections/muscle";
 import { useRef } from "react";
 import BalancingSection from "sections/balancing";
 import GoNext from "components/goNext";
+import ScrollIndicator from "components/scroll";
 
 const InAction: NextPage = () => {
   const armRef = useRef<ArmHandle>(null);
@@ -30,6 +31,7 @@ const InAction: NextPage = () => {
       }}
       onMouseUp={() => armRef.current?.flex(null)}
     >
+      <ScrollIndicator />
       <MuscleSection />
       <BalancingSection order={1}>
         <GoNext prevUrl="muscle" nextUrl="staying-healthy" />

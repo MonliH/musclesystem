@@ -6,6 +6,7 @@ import BoneMarrow from "models/BoneMarrow";
 import Page from "components/page";
 import { Physics } from "@react-three/cannon";
 import GoNext from "components/goNext";
+import ScrollIndicator from "components/scroll";
 
 const BonePage: NextPage = () => {
   return (
@@ -17,6 +18,7 @@ const BonePage: NextPage = () => {
         </Physics>
       }
     >
+      <ScrollIndicator />
       <BoneSection />
       <MarrowSection>
         <GoNext nextUrl="joints" />
