@@ -18,8 +18,12 @@ import Section, { useSection } from "sections/section";
 
 export default function StayingHealthySection({ order }: { order: number }) {
   const [idx, setIdx] = useState<number>(-1);
-  const { visible: v, atPrev, nextTransitionUnbounded } = useSection(order);
-  const visible = v || (!v && !atPrev && nextTransitionUnbounded < 1.5);
+  const {
+    visible: v,
+    atPrev,
+    nextTransitionUnbounded,
+  } = useSection(order, 1, 1250);
+  const visible = v || (!v && !atPrev && nextTransitionUnbounded < 1.1);
   const transitions = useTransition([idx], {
     key: idx,
     from: { opacity: 0 },

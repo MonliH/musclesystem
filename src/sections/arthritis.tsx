@@ -13,7 +13,7 @@ import { a, useSpring } from "react-spring";
 import Section, { useSection } from "sections/section";
 
 export default function ArthritisSection({ order }: { order: number }) {
-  const { visible } = useSection(order);
+  const { visible } = useSection(order, 1, 1250);
   const { opacity } = useSpring({ opacity: visible ? 1 : 0 });
 
   return (

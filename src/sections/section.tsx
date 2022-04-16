@@ -26,7 +26,8 @@ export default function Section({
 
 export function useSection(
   order: number,
-  sectionLen: number = 1
+  sectionLen: number = 1,
+  minHeight?: number
 ): {
   visible: boolean;
   visibleRef: React.MutableRefObject<boolean>;
@@ -37,7 +38,10 @@ export function useSection(
   nextTransitionUnbounded: number;
   nextTransitionUnboundedRef: React.MutableRefObject<number>;
 } {
-  const height = typeof window == "undefined" ? 1000 : window.innerHeight;
+  const height =
+    typeof window == "undefined"
+      ? 1000
+      : Math.max(window.innerHeight, minHeight ?? 0);
   const [pagePixelProgress, setPageProgress] = usePage((state) => [
     state.pageProgress,
     state.setPageProgress,
@@ -45,7 +49,7 @@ export function useSection(
   const pageProgress = pagePixelProgress + height * 0.4;
   useEffect(() => {
     const hash = window.location.hash;
-    const offset = hash ? HASH_TO_POSITION[hash] * window.innerHeight : 0;
+    const offset = hash ? HASH_TO_POSITION[hash] * height : 0;
     setPageProgress(offset);
   }, []);
   const sectionHeight = height * sectionLen;
